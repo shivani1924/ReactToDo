@@ -68,6 +68,7 @@ function ClockIn1(){
         
     }
     const clockOut = async() =>{
+        console.log("shivani");
         const duration = localStorage.getItem('loggedDuration')
         const breakduration = localStorage.getItem('breakduration')
         const loggedDuration = duration - breakduration
