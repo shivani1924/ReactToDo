@@ -67,9 +67,11 @@ function ClockIn1(){
         // console.log();
         
     }
+    const [breakduration , setbreakduration] = useState(0)
     const clockOut = async() =>{
         const duration = localStorage.getItem('loggedDuration')
-        const breakduration = localStorage.getItem('breakduration')
+        // const breakduration = 
+        setbreakduration(localStorage.getItem('breakduration'));
         const loggedDuration = duration - breakduration
         console.log(loggedDuration);
         localStorage.setItem('loggedtime',loggedDuration)
@@ -81,14 +83,19 @@ function ClockIn1(){
         const auth = JSON.parse(localStorage.getItem("user"));
         console.log(auth);
     // if(auth) {
-        const token = auth.auth ;
-        const name = auth.result[0].firstName ;
+        // const token = auth.result.idusers ;
+        // const token = "123" ;
+        
+        const id = auth.result[0].idusers ;
+        const clockInTime = start?.toLocaleTimeString();
+        console.log(id)
         // const email = auth.result[0].email ;
     // }
 
       await Axios.post('http://localhost:3001/logged', {
-      token,
-      name, 
+      id,
+    //   name,
+      clockInTime,
       loggedDuration,
       breakduration,
       date

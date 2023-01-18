@@ -72,8 +72,6 @@ app.post("/login", (req, res)=> {
             } else{
                 res.send({ message: "Wrong username password"});
             }
-        // console.log(result);
-        // res.send("hello")
     })
 
 })
@@ -82,38 +80,44 @@ app.post("/login", (req, res)=> {
 
 app.post("/logged", (req, res) => {
     const id = req.body.id
-    const name = req.body.name
+    console.log(id);
+    const clockInTime = req.body.clockInTime
     const date = req.body.date
     const loggedDuration = req.body.loggedDuration
-    const breaktime = req.body.password
-    const sqlInsert = "INSERT INTO clockIn (userId, lastName, email, password) VALUES (?,?,?,?)"
-    db.query(sqlInsert,[firstName, lastName, email, password], (err, result) => {
+    const breakduration = req.body.breakduration
+    const sqlInsert = "INSERT INTO clockIn (userId, clockInTime, clockInAvg, break, date) VALUES (?,?,?,?,?)"
+    db.query(sqlInsert,[id, clockInTime, loggedDuration, breakduration, date], (err, result) => {
         // console.log(err);
         console.log({result});   
         if (err){
             // console.log(err);
             res.send({err: err})
         } 
-        const sqlFind = " SELECT * From users  where email = ? AND  password = ?"
-        db.query(sqlFind,[email, password], 
-        (err, result) => {
-            if (err){
-                // console.log(err);
-                res.send({err: err})
-            } 
-            if (result.length > 0) {
-                jwt.sign({result},jwtKey,{expiresIn:"2h"},(err,token) =>{
-                    
-                    res.send({ result, auth : token});
-                })
-            } 
-    })  
     }) 
 });
 
 
 
-
+app.post("/task", (req, res) => {
+    const id = req.body.id
+    // console.log(id);
+    const todo = req.body.todo
+    const startTime = req.body.startTime
+    const endTime = req.body.endTime
+    const date = req.body.date
+    const sqlInsert = "INSERT INTO task (userId, todo, start, end, date) VALUES (?,?,?,?,?)"
+    db.query(sqlInsert,[id, todo, startTime, endTime, date], (err, result) => {
+        // console.log(err);
+        console.log({result});   
+        if (err){
+            // console.log(err);
+            res.send({err: err})
+        } 
+        else{
+            res.send({result:result})
+        }
+    }) 
+});
 
 app.listen(3001, () => {
     console.log("3001")

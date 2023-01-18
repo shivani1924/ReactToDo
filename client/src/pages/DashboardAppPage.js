@@ -20,6 +20,7 @@ import {
   AppCurrentSubject,
   AppConversionRates,
 } from '../sections/@dashboard/app';
+import Todo from './Todo';
 
 // ----------------------------------------------------------------------
 
@@ -68,9 +69,9 @@ export default function DashboardAppPage() {
           <Grid item xs={12} sm={6} md={3}>
             <AppWidgetSummary title="Bug Reports" total={234} color="error" icon={'ant-design:bug-filled'} />
           </Grid> */}
-{/* 
+
           <Grid item xs={12} md={6} lg={12}>
-            <AppWebsiteVisits
+            {/* <AppWebsiteVisits
               title="Website Visits"
               subheader="(+43%) than last year"
               chartLabels={[
@@ -106,11 +107,11 @@ export default function DashboardAppPage() {
                   data: [30, 25, 36, 30, 45, 35, 64, 52, 59, 36, 39],
                 },
               ]}
-            />
-          </Grid> */}
+            /> */}
 
 
-
+            <Todo/>
+          </Grid> 
         </Grid>
       </Container>
     </>

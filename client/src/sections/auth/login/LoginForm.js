@@ -13,18 +13,11 @@ import Iconify from '../../../components/iconify';
 // ----------------------------------------------------------------------
 
 export default function LoginForm() {
-
-  
-
   const navigate = useNavigate();
-
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loginStatus, setLoginStatus] = useState("");
-
-  
-
   useEffect(() => {
     const auth = localStorage.getItem("user");
     if(auth) {
@@ -50,14 +43,8 @@ export default function LoginForm() {
 
           navigate('/dashboard', { replace: true });
           // account()
-        
-
-          
-
         }
       }
-
-      
   });
     // navigate('/dashboard', { replace: true });
 
