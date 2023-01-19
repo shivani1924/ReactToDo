@@ -46,14 +46,15 @@ export default function Nav({ openNav, onCloseNav }) {
 
   useEffect(() => {
     const auth = JSON.parse(localStorage.getItem("user"));
-    console.log(auth);
+    // console.log("auth:", auth.result[0].idusers);
     if(auth) {
       const token = auth.auth ;
       const name = auth.result[0].firstName ;
       const email = auth.result[0].email ;
+      const id = auth.result[0].idusers ;
 
       // console.log(name);
-      authData.dispatch({type:"CHANGE_AUTH_DATA",payload:{_token:token,name,email}})
+      authData.dispatch({type:"CHANGE_AUTH_DATA",payload:{_token:token,name,email,id}})
     }
 
     if (openNav) {

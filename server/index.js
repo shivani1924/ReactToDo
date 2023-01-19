@@ -119,6 +119,24 @@ app.post("/task", (req, res) => {
     }) 
 });
 
+
+// app.post("/selectedDate", (req, res)=> {
+//     // const firstName = req.body.firstName
+//     // const lastName = req.body.lastName
+//     const selectedDate = req.body.selectedDate
+//     const id = req.body.id
+//     const sqlInsert = " SELECT * From clockin  where date = ? AND  userId = ?"
+//     db.query(sqlInsert,[selectedDate, id], 
+//         (err, result) => {
+//             if (err){
+//                 // console.log(err);
+//                 res.send({err: err})
+//             } else {
+//                 res.send({result});
+//             }
+//     })
+
+// })
 app.listen(3001, () => {
     console.log("3001")
 });

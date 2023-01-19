@@ -1,5 +1,6 @@
-import {useState,useEffect} from 'react';
+import {useState,useEffect, useContext} from 'react';
 import Axios from 'axios';
+import { ChangeDate , MyContext } from '../../../App';
 
 
 const TotalTimeCounter = () => {
@@ -28,7 +29,29 @@ const TotalTimeCounter = () => {
 }
 
 function ClockIn1(){
+    const dateContext = useContext(ChangeDate)
+    const authData = useContext(MyContext)
+    // console.log(authData.data.id);
+    const selectedDate = dateContext.selectedDate.date;
+    const id = authData.data.id
 
+    if(selectedDate){
+        // console.log(selectedDate.toDateString);
+        Axios.post('http://localhost:3001/selectedDate', {
+      selectedDate,
+      id,
+    }).then((response) => {
+      console.log(response);
+      // alert('successful')
+    //   if(response.data.message){
+    //     alert("got the time");
+    //   }
+      
+  });
+    // navigate('/dashboard', { replace: true });
+
+
+    }
     function calTime(diffMs){
         let diffHrs = 0;
         let diffMins = 0;
@@ -57,13 +80,16 @@ function ClockIn1(){
 
     const[start,setStart] = useState(localStorage.getItem('start')?new Date(localStorage.getItem('start')):null);
     const loginTime = new Date(start).toDateString();
-    
+    // const a = 
+
     const[timer,setTimer] = useState([0,0,0]);
     const date = new Date();
     const ClockIn = () => {
         setStart(new Date());
         localStorage.setItem('start', new Date());
         setInterval(TotalTimeCounter, 10000);
+        // console.log(selectedDate);
+
         // console.log();
         
     }
