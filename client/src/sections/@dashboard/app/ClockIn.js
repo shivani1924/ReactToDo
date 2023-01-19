@@ -29,12 +29,13 @@ const TotalTimeCounter = () => {
 }
 
 function ClockIn1(){
+    
     const dateContext = useContext(ChangeDate)
     const authData = useContext(MyContext)
     // console.log(authData.data.id);
-    const selectedDate = dateContext.selectedDate.date;
+    const selectedDate = dateContext.selectedDate.localDate;
     const id = authData.data.id
-
+    
     if(selectedDate){
         // console.log(selectedDate.toDateString);
         Axios.post('http://localhost:3001/selectedDate', {
@@ -42,16 +43,12 @@ function ClockIn1(){
       id,
     }).then((response) => {
       console.log(response);
-      // alert('successful')
     //   if(response.data.message){
     //     alert("got the time");
     //   }
       
   });
-    // navigate('/dashboard', { replace: true });
-
-
-    }
+    } 
     function calTime(diffMs){
         let diffHrs = 0;
         let diffMins = 0;
@@ -84,6 +81,7 @@ function ClockIn1(){
 
     const[timer,setTimer] = useState([0,0,0]);
     const date = new Date();
+    // console.log(D);
     const ClockIn = () => {
         setStart(new Date());
         localStorage.setItem('start', new Date());
@@ -105,15 +103,13 @@ function ClockIn1(){
         localStorage.removeItem('break');
         localStorage.removeItem('breakduration');
         setStart(localStorage.getItem('start'));
-        console.log(start?.toLocaleTimeString());
+        // console.log(start?.toLocaleTimeString());
         const auth = JSON.parse(localStorage.getItem("user"));
-        console.log(auth);
-    // if(auth) {
-        // const token = auth.result.idusers ;
-        // const token = "123" ;
         
         const id = auth.result[0].idusers ;
         const clockInTime = start?.toLocaleTimeString();
+        const localDate = date.toLocaleDateString();
+
         console.log(id)
         // const email = auth.result[0].email ;
     // }
@@ -124,7 +120,7 @@ function ClockIn1(){
       clockInTime,
       loggedDuration,
       breakduration,
-      date
+      localDate
     }).then((response) => {
       alert('successful')
       // console.log(response.data.auth);
@@ -161,7 +157,7 @@ function ClockIn1(){
 
     });
 
-    
+
     return (
        <div className='FullScreen'>
             <div className='clockInOverview'>

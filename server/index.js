@@ -82,11 +82,11 @@ app.post("/logged", (req, res) => {
     const id = req.body.id
     console.log(id);
     const clockInTime = req.body.clockInTime
-    const date = req.body.date
+    const localDate = req.body.localDate
     const loggedDuration = req.body.loggedDuration
     const breakduration = req.body.breakduration
     const sqlInsert = "INSERT INTO clockIn (userId, clockInTime, clockInAvg, break, date) VALUES (?,?,?,?,?)"
-    db.query(sqlInsert,[id, clockInTime, loggedDuration, breakduration, date], (err, result) => {
+    db.query(sqlInsert,[id, clockInTime, loggedDuration, breakduration, localDate], (err, result) => {
         // console.log(err);
         console.log({result});   
         if (err){
@@ -120,23 +120,24 @@ app.post("/task", (req, res) => {
 });
 
 
-// app.post("/selectedDate", (req, res)=> {
-//     // const firstName = req.body.firstName
-//     // const lastName = req.body.lastName
-//     const selectedDate = req.body.selectedDate
-//     const id = req.body.id
-//     const sqlInsert = " SELECT * From clockin  where date = ? AND  userId = ?"
-//     db.query(sqlInsert,[selectedDate, id], 
-//         (err, result) => {
-//             if (err){
-//                 // console.log(err);
-//                 res.send({err: err})
-//             } else {
-//                 res.send({result});
-//             }
-//     })
+app.post("/selectedDate", (req, res)=> {
+    // const firstName = req.body.firstName
+    // const lastName = req.body.lastName
+    const selectedDate = req.body.selectedDate
+    const id = req.body.id
+    console.log(id);
+    const sqlInsert = " SELECT * From clockin  where date = ? AND  userId = ?"
+    db.query(sqlInsert,[selectedDate, id], 
+        (err, result) => {
+            if (err){
+                // console.log(err);
+                res.send({err: err})
+            } else {
+                res.send({res:result});
+            }
+    })
 
-// })
+})
 app.listen(3001, () => {
     console.log("3001")
 });
