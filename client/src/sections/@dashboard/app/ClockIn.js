@@ -3,9 +3,13 @@ import Axios from 'axios';
 import { ChangeDate , MyContext } from '../../../App';
 
 
+
+
+
 const TotalTimeCounter = () => {
 
     const startTimeString = localStorage.getItem('start');
+    
     let diffHrs = 0;
     let diffMins = 0;
     let diffSecs = 0;
@@ -28,6 +32,10 @@ const TotalTimeCounter = () => {
     );
 }
 
+function ClockIn(){
+    
+}
+
 function ClockIn1(){
     
     const dateContext = useContext(ChangeDate)
@@ -35,6 +43,10 @@ function ClockIn1(){
     // console.log(authData.data.id);
     const selectedDate = dateContext.selectedDate.localDate;
     const id = authData.data.id
+    const [date,setDate] = useState (new Date());
+    const[start,setStart] = useState(localStorage.getItem('start')?new Date(localStorage.getItem('start')):null);
+    const [startTimeString , setstartTimeString] = useState("")
+
     
     if(selectedDate){
         // console.log(selectedDate.toDateString);
@@ -42,13 +54,31 @@ function ClockIn1(){
       selectedDate,
       id,
     }).then((response) => {
-      console.log(response);
-    //   if(response.data.message){
+      console.log(response.data);
+      if(response.data){
     //     alert("got the time");
-    //   }
+            // const clockIn
+            // const date = dateContext.selectedDate.date ;
+            setDate(dateContext.selectedDate.date);
+            setStart(new Date(response.data.res[2].clockInTime))
+            // setstartTimeString()
+            const temp = calTime(response.data.res[2].clockInAvg)
+            setTimer(temp)
+            console.log(response.data.res[2].break);
+            setbreakduration(response.data.res[2].break);
+            console.log(response.data.res[2].break);
+
+            calTime(breakduration);
+            sets(calTime(breakduration))
+
+      }
       
   });
-    } 
+    } else {
+        // const date = new Date();
+        // setDate(new Date())
+
+    }
     function calTime(diffMs){
         let diffHrs = 0;
         let diffMins = 0;
@@ -59,7 +89,7 @@ function ClockIn1(){
         return [diffHrs,diffMins,diffSecs];
     }
     function a(){
-        const startTimeString = localStorage.getItem('start');
+        setstartTimeString(localStorage.getItem('start'));
         let diffHrs = 0;
         let diffMins = 0;
         let diffSecs = 0;
@@ -75,12 +105,10 @@ function ClockIn1(){
         return [diffHrs,diffMins,diffSecs];    
     }
 
-    const[start,setStart] = useState(localStorage.getItem('start')?new Date(localStorage.getItem('start')):null);
-    const loginTime = new Date(start).toDateString();
+    // const loginTime = new Date(start).toDateString();
     // const a = 
 
     const[timer,setTimer] = useState([0,0,0]);
-    const date = new Date();
     // console.log(D);
     const ClockIn = () => {
         setStart(new Date());
@@ -94,23 +122,26 @@ function ClockIn1(){
     const [breakduration , setbreakduration] = useState(0)
     const clockOut = async() =>{
         const duration = localStorage.getItem('loggedDuration')
-        // const breakduration = 
-        setbreakduration(localStorage.getItem('breakduration'));
+        const b = localStorage.getItem('breakduration')
+        setbreakduration(b);
+
         const loggedDuration = duration - breakduration
+        console.log(breakduration)
         console.log(loggedDuration);
-        localStorage.setItem('loggedtime',loggedDuration)
+        // localStorage.setItem('loggedtime',loggedDuration)
         localStorage.removeItem('start');
         localStorage.removeItem('break');
         localStorage.removeItem('breakduration');
+        localStorage.removeItem('loggedDuration');
+
         setStart(localStorage.getItem('start'));
         // console.log(start?.toLocaleTimeString());
         const auth = JSON.parse(localStorage.getItem("user"));
         
         const id = auth.result[0].idusers ;
-        const clockInTime = start?.toLocaleTimeString();
+        const clockInTime = start;
         const localDate = date.toLocaleDateString();
 
-        console.log(id)
         // const email = auth.result[0].email ;
     // }
 
@@ -137,16 +168,21 @@ function ClockIn1(){
         localStorage.setItem('break', new Date());
         setisbreak(1);
         setbreaktime(new Date());
+        setInterval(TotalTimeCounter, 10000);
+
     }
     const Resume =()=> {
         const previousBreak = localStorage.getItem("breakduration") ;
         const totalbreaktime = Math.abs(new Date() - breaktime) / 1000;
         localStorage.setItem('breakduration',  previousBreak != null ? parseInt(previousBreak,10)+ parseInt( totalbreaktime,10 ) : totalbreaktime )
         setisbreak(0);
+        setbreakduration(localStorage.getItem('breakduration'))
         calTime(previousBreak);
         setisbreak(0)
+        sets(calTime(localStorage.getItem('breakduration')))
     }
-    const properbreaktime = calTime(localStorage.getItem('breakduration'))
+    const [s,sets] =useState(calTime(localStorage.getItem('breakduration')))
+    const properbreaktime = s;
     useEffect(()=>{
         const interval = setInterval(() => {
             const temp = a();
@@ -185,6 +221,10 @@ function ClockIn1(){
                                             <h6>{properbreaktime[0]}:{properbreaktime[1]}:{properbreaktime[2]}</h6>
                                         </div>        
                                 </div>
+                                <>
+                                {
+                                    selectedDate === "" ?
+                                    <> 
                         <div className='clockInButton'>
                             <button onClick={clockOut}>Clock Out</button>
                             <>
@@ -194,10 +234,16 @@ function ClockIn1(){
                                <>
                                     <button onClick={Break}>Break</button>
                                 </>
+                                
                             }
                                 
                             </>
                         </div>
+                        </>
+                        :
+                        <div/>
+                                }
+                    </>
                     </div>
                     : 
                     <div className='clockInFont'>

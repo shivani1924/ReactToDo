@@ -9,7 +9,7 @@ function Cal() {
  const onChange = (date) => {
    setDate(date);
    const localDate = date.toLocaleDateString()
- selectedDate.dispatchDate({type:"CHANGE_AUTH_DATA",payload:{localDate}})
+ selectedDate.dispatchDate({type:"CHANGE_AUTH_DATA",payload:{localDate,date}})
 }
 
 
