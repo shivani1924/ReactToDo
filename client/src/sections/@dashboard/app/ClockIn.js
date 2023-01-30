@@ -3,13 +3,11 @@ import Axios from 'axios';
 import { ChangeDate , MyContext } from '../../../App';
 
 
-
+//-----------------------------------------------------------------------------------------------------------------
 
 
 const TotalTimeCounter = () => {
-
-    const startTimeString = localStorage.getItem('start');
-    
+    const startTimeString = localStorage.getItem('start');    
     let diffHrs = 0;
     let diffMins = 0;
     let diffSecs = 0;
@@ -21,7 +19,6 @@ const TotalTimeCounter = () => {
             diffMins = Math.floor(diffMs / 60) % 60;
             diffSecs = Math.floor(diffMs % 60);
         }
-
     return (
         <>
         {diffHrs} :
@@ -32,53 +29,40 @@ const TotalTimeCounter = () => {
     );
 }
 
-function ClockIn(){
-    
-}
 
-function ClockIn1(){
-    
+function ClockIn1(){   
+
     const dateContext = useContext(ChangeDate)
     const authData = useContext(MyContext)
-    // console.log(authData.data.id);
     const selectedDate = dateContext.selectedDate.localDate;
     const id = authData.data.id
     const [date,setDate] = useState (new Date());
-    const[start,setStart] = useState(localStorage.getItem('start')?new Date(localStorage.getItem('start')):null);
+    const [start,setStart] = useState(localStorage.getItem('start')?new Date(localStorage.getItem('start')):null);
     const [startTimeString , setstartTimeString] = useState("")
+    const [timer,setTimer] = useState([0,0,0]);
 
     
     if(selectedDate){
-        // console.log(selectedDate.toDateString);
         Axios.post('http://localhost:3001/selectedDate', {
-      selectedDate,
-      id,
-    }).then((response) => {
-      console.log(response.data);
+            selectedDate,
+            id,
+        }).then((response) => {
+    //   console.log(response.data);
       if(response.data){
-    //     alert("got the time");
-            // const clockIn
-            // const date = dateContext.selectedDate.date ;
+        //   console.log(response.data.clockin.break);
+        const localselectedDate = response.data.clockin[0]
+        localStorage.setItem("selectedDate",localselectedDate)
             setDate(dateContext.selectedDate.date);
-            setStart(new Date(response.data.res[2].clockInTime))
-            // setstartTimeString()
-            const temp = calTime(response.data.res[2].clockInAvg)
+            setStart(new Date(response.data.clockin[0].clockInTime))
+            const temp = calTime(response.data.clockin[0].clockInAvg)
             setTimer(temp)
-            console.log(response.data.res[2].break);
-            setbreakduration(response.data.res[2].break);
-            console.log(response.data.res[2].break);
-
+            setbreakduration(response.data.clockin[0].break);
+            console.log(localselectedDate);
             calTime(breakduration);
             sets(calTime(breakduration))
-
-      }
-      
-  });
-    } else {
-        // const date = new Date();
-        // setDate(new Date())
-
-    }
+      }      
+    });
+}
     function calTime(diffMs){
         let diffHrs = 0;
         let diffMins = 0;
@@ -104,62 +88,67 @@ function ClockIn1(){
         }
         return [diffHrs,diffMins,diffSecs];    
     }
-
-    // const loginTime = new Date(start).toDateString();
-    // const a = 
-
-    const[timer,setTimer] = useState([0,0,0]);
-    // console.log(D);
-    const ClockIn = () => {
-        setStart(new Date());
-        localStorage.setItem('start', new Date());
-        setInterval(TotalTimeCounter, 10000);
-        // console.log(selectedDate);
-
-        // console.log();
-        
-    }
+    
     const [breakduration , setbreakduration] = useState(0)
+
+    const ClockIn = async() => {
+        
+
+        const auth = JSON.parse(localStorage.getItem("user"));       
+        const id = auth.result[0].idusers ;
+        const clockInTime = new Date();
+        const loggedDuration = 0;
+        // console.log(clockInTime);
+        setbreakduration("0");
+        const localDate = date.toLocaleDateString();
+
+
+
+        await Axios.post('http://localhost:3001/logged', {
+            id,
+            clockInTime,
+            loggedDuration,
+            breakduration,
+            localDate
+        }).then((response) => {
+            alert('successful')
+            setStart(new Date());
+            localStorage.setItem('start', new Date());
+            setInterval(TotalTimeCounter, 10000);
+    }
+
+        ).catch((error) => alert(error.message))
+    }
+
     const clockOut = async() =>{
+
         const duration = localStorage.getItem('loggedDuration')
-        const b = localStorage.getItem('breakduration')
-        setbreakduration(b);
+        const localStorageBreak = localStorage.getItem('breakduration')
+        setbreakduration(localStorageBreak);
 
         const loggedDuration = duration - breakduration
         console.log(breakduration)
-        console.log(loggedDuration);
-        // localStorage.setItem('loggedtime',loggedDuration)
+        console.log("logged",loggedDuration);
         localStorage.removeItem('start');
         localStorage.removeItem('break');
         localStorage.removeItem('breakduration');
         localStorage.removeItem('loggedDuration');
 
         setStart(localStorage.getItem('start'));
-        // console.log(start?.toLocaleTimeString());
-        const auth = JSON.parse(localStorage.getItem("user"));
-        
+        const auth = JSON.parse(localStorage.getItem("user"));       
         const id = auth.result[0].idusers ;
         const clockInTime = start;
         const localDate = date.toLocaleDateString();
+        // console.log(logg);
 
-        // const email = auth.result[0].email ;
-    // }
-
-      await Axios.post('http://localhost:3001/logged', {
+      await Axios.post('http://localhost:3001/clockout', {
       id,
-    //   name,
       clockInTime,
       loggedDuration,
       breakduration,
       localDate
     }).then((response) => {
       alert('successful')
-      // console.log(response.data.auth);
-    //   console.log(response.data);
-    //   localStorage.setItem("user" , JSON.stringify(response.data));
-
-    //   navigate('/dashboard', { replace: true });
-      
     });
     }
     const [isbreak,setisbreak] = useState(0);
@@ -169,9 +158,8 @@ function ClockIn1(){
         setisbreak(1);
         setbreaktime(new Date());
         setInterval(TotalTimeCounter, 10000);
-
     }
-    const Resume =()=> {
+    const Resume =async()=> {
         const previousBreak = localStorage.getItem("breakduration") ;
         const totalbreaktime = Math.abs(new Date() - breaktime) / 1000;
         localStorage.setItem('breakduration',  previousBreak != null ? parseInt(previousBreak,10)+ parseInt( totalbreaktime,10 ) : totalbreaktime )
@@ -180,6 +168,24 @@ function ClockIn1(){
         calTime(previousBreak);
         setisbreak(0)
         sets(calTime(localStorage.getItem('breakduration')))
+
+
+        const auth = JSON.parse(localStorage.getItem("user"));       
+        const id = auth.result[0].idusers ;
+        const clockInTime = start;
+        const localDate = date.toLocaleDateString();
+
+      await Axios.post('http://localhost:3001/resume', {
+      id,
+    //   clockInTime,
+    //   loggedDuration,
+      breakduration,
+      localDate
+    }).then((response) => {
+      alert('successful')
+    });
+
+        
     }
     const [s,sets] =useState(calTime(localStorage.getItem('breakduration')))
     const properbreaktime = s;
@@ -188,12 +194,8 @@ function ClockIn1(){
             const temp = a();
             setTimer(temp);
         },1000);
-
         return()=> clearInterval(interval);
-
     });
-
-
     return (
        <div className='FullScreen'>
             <div className='clockInOverview'>
@@ -211,38 +213,45 @@ function ClockIn1(){
                         { timer[2] >= 10 ? timer[2] : 0 + timer[2]}
                         </>
 
-                        <div className='description'>
-                                        <div className='clockTime'>
-                                            <h5>Clock In Time</h5>
-                                            <h6>{start?.toLocaleTimeString()}</h6>
-                                        </div>
-                                        <div className='clockTime'>
-                                            <h5>Break Duration</h5>
-                                            <h6>{properbreaktime[0]}:{properbreaktime[1]}:{properbreaktime[2]}</h6>
-                                        </div>        
+                            <div className='description'>
+                                <div className='clockTime'>
+                                        <h5>Clock In Time</h5>
+                                        <h6>{start?.toLocaleTimeString()}</h6>
                                 </div>
-                                <>
-                                {
-                                    selectedDate === "" ?
-                                    <> 
-                        <div className='clockInButton'>
-                            <button onClick={clockOut}>Clock Out</button>
+                                <div className='clockTime'>
+                                        <h5>Break Duration</h5>
+                                        <h6>{properbreaktime[0]}:{properbreaktime[1]}:{properbreaktime[2]}</h6>
+                                </div>        
+                            </div>
+
+                        <>
+                        
+                            <> 
+                                <div className='clockInButton'>
+                                    <button onClick={clockOut}>
+                                        Clock Out
+                                    </button>
                             <>
                             {
-                               isbreak === 1 ? <><button onClick={Resume}>Resume</button> </>
+                               isbreak === 1 ? 
+                               <>
+                                    <button onClick={Resume}>
+                                        Resume
+                                    </button> 
+                               </>
                                :
                                <>
-                                    <button onClick={Break}>Break</button>
-                                </>
-                                
+                                    <button onClick={Break}>
+                                        Break
+                                    </button>
+                               </>                               
                             }
                                 
                             </>
                         </div>
                         </>
-                        :
-                        <div/>
-                                }
+                        
+                    
                     </>
                     </div>
                     : 
@@ -253,12 +262,10 @@ function ClockIn1(){
                         </div>
                     </div>
                 }
-                </div>
             </div>
-            {/* <div>
-            </div> */}
-       </div> 
-    );
+        </div>
+    </div> 
+);
 }
 
 export default ClockIn1;

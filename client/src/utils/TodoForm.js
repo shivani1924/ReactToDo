@@ -6,26 +6,27 @@ import moment from 'moment';
 import { getTime } from "date-fns";
 import Axios from "axios";
 
-
+//----------------------------------------------------------------------------------------------------------------
 
 const TodoForm = ({ handleSubmit, todo, editId, setTodo ,startTime, setStartTime, endTime, setEndTime}) => {
   
   const go = async() => {
     const auth = JSON.parse(localStorage.getItem("user"));
-    const id = auth.result[0].idusers ;
-    const date = new Date();
-    console.log(endTime)
-    console.log(id)
-    console.log(date)
-    console.log(startTime)
-    console.log(todo)
+    const userId = auth.result[0].idusers ;
+    const date = new Date().toLocaleDateString();
+    const id =  `${todo}-${Date.now()}`;
+    console.log(id);
+    // console.log(date)
+    // console.log(startTime)
+    // console.log(todo)
 
     await Axios.post('http://localhost:3001/task', {
-      id,
+      userId,
       todo,
       startTime,
       endTime,
-      date
+      date,
+      id
     }).then((response) => {
       alert('successful')    
     });
