@@ -1,6 +1,6 @@
 import {useState,useEffect, useContext} from 'react';
 import Axios from 'axios';
-import { ChangeDate , MyContext } from '../../../App';
+import { ChangeDate , MyContext  } from '../../../App';
 
 
 //-----------------------------------------------------------------------------------------------------------------
@@ -40,6 +40,7 @@ function ClockIn1(){
     const [start,setStart] = useState(localStorage.getItem('start')?new Date(localStorage.getItem('start')):null);
     const [startTimeString , setstartTimeString] = useState("")
     const [timer,setTimer] = useState([0,0,0]);
+    const [status,setStatus] = useState("loggedIn")
 
     
     if(selectedDate){
@@ -90,7 +91,6 @@ function ClockIn1(){
     }
     
     const [breakduration , setbreakduration] = useState(0)
-
     const ClockIn = async() => {
         
 
@@ -100,12 +100,14 @@ function ClockIn1(){
         const loggedDuration = 0;
         // console.log(clockInTime);
         setbreakduration("0");
+        setStatus("loggedIn")
         const localDate = date.toLocaleDateString();
 
 
 
         await Axios.post('http://localhost:3001/logged', {
             id,
+            status,
             clockInTime,
             loggedDuration,
             breakduration,
@@ -115,6 +117,9 @@ function ClockIn1(){
             setStart(new Date());
             localStorage.setItem('start', new Date());
             setInterval(TotalTimeCounter, 10000);
+
+
+            
     }
 
         ).catch((error) => alert(error.message))
@@ -140,9 +145,11 @@ function ClockIn1(){
         const clockInTime = start;
         const localDate = date.toLocaleDateString();
         // console.log(logg);
+        setStatus("loggedout")
 
       await Axios.post('http://localhost:3001/clockout', {
       id,
+      status,
       clockInTime,
       loggedDuration,
       breakduration,

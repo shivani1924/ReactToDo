@@ -77,7 +77,9 @@ app.post("/login", (req, res)=> {
 
 })
 
+// app.post("/loggedstatus", async(req,res) => {
 
+// })
 
 app.post("/logged", async(req, res) => {
     // console.log(req);
@@ -87,6 +89,7 @@ app.post("/logged", async(req, res) => {
     const loggedDuration = req.body.loggedDuration
     const breakduration = req.body.breakduration
     const id = req.body.id
+    const status = req.body.status
 
     const resultfind = `select * from clockIn where userId = ${id} and date="${localDate}"`;
     await db.query(resultfind,(err,result)=>{
@@ -97,8 +100,8 @@ app.post("/logged", async(req, res) => {
             if(result.length==0){
                 console.log(result)
 
-                const sqlInsert = "INSERT INTO clockIn (userId, clockInTime, clockInAvg, break, date) VALUES (?,?,?,?,?)"
-                db.query(sqlInsert,[id, clockInTime, loggedDuration, breakduration, localDate], (err, result) => {
+                const sqlInsert = "INSERT INTO clockIn (userId,status, clockInTime, clockInAvg, break, date) VALUES (?,?,?,?,?,?)"
+                db.query(sqlInsert,[id,status, clockInTime, loggedDuration, breakduration, localDate], (err, result) => {
                     console.log({result});   
                     if (err){
                         res.send({err: err})
@@ -116,6 +119,8 @@ app.post("/logged", async(req, res) => {
 
 app.post("/clockout", async(req, res) => {
     const id = req.body.id
+    const status = req.body.status
+
     // console.log(id);
     const clockInTime = req.body.clockInTime
     const localDate = req.body.localDate
@@ -125,9 +130,9 @@ app.post("/clockout", async(req, res) => {
     // console.log(typeof(stringloggedDuration));
     // console.log(typeof(breakduration)); 
 
-    const sqlInsert = "UPDATE clockIn SET clockInAvg=? , break=? WHERE userId=? and date=?"
-const data = await db.query(sqlInsert,[stringloggedDuration, breakduration,id, localDate]);
-    db.query(sqlInsert,[stringloggedDuration, breakduration,id, localDate], (err, result) => {
+    const sqlInsert = "UPDATE clockIn SET status=?, clockInAvg=? , break=? WHERE userId=? and date=?"
+const data = await db.query(sqlInsert,[status,stringloggedDuration, breakduration,id, localDate]);
+    db.query(sqlInsert,[status, stringloggedDuration, breakduration,id, localDate], (err, result) => {
         // console.log(err);
         console.log({result});   
         if (err){
@@ -183,8 +188,6 @@ app.post("/task", (req, res) => {
 
 
 app.post("/selectedDate", (req, res)=> {
-    // const firstName = req.body.firstName
-    // const lastName = req.body.lastName
         const selectedDate = req.body.selectedDate
         const id = req.body.id
     // console.log(id);
@@ -218,14 +221,15 @@ app.post("/selectedDate", (req, res)=> {
 
 
 
-app.get("/getTask", (req, res)=> {
+
+app.post("/getTask", (req, res)=> {
     // const firstName = req.body.firstName
     // const lastName = req.body.lastName
     const selectedDate = req.body.selectedDate
-    const userId = req.body.userId
+    const Id = req.body.id
     // console.log(id);
     const sqlInsert = " SELECT * From task  where date = ? AND  userId = ?"
-    db.query(sqlInsert,[selectedDate, userId], 
+    db.query(sqlInsert,[selectedDate, Id], 
         (err, result) => {
             if (err){
                 // console.log(err);
