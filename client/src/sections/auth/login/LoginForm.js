@@ -39,10 +39,13 @@ export default function LoginForm() {
         console.log(response.data.auth);
         if(response.data.auth){
           localStorage.setItem("user" , JSON.stringify(response.data));
-          
-
           navigate('/dashboard', { replace: true });
-          // account()
+          // const id =  localStorage.getItem
+          // Axios.post('http://localhost:3001/loggedstatus' , {
+          
+          // })
+
+
         }
       }
   });
