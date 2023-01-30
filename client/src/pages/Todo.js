@@ -1,10 +1,16 @@
-import React, { useState } from "react";
+import React, { useState,useContext } from "react";
 // import "./App.css";
 import "./Todo.css"
+import { Axios } from "axios";
 import TodoForm from "../utils/TodoForm";
 import TodoList from "../utils/TodoList";
+import { ChangeDate , MyContext } from '../App';
+
 
 const Todo = () => {
+
+
+  
   const [todo, setTodo] = useState("");
   const [todos, setTodos] = useState([]);
   const [editId, setEditId] = useState(0);
@@ -12,9 +18,26 @@ const Todo = () => {
   const [startTime,setStartTime] = useState()
   const [endTime,setEndTime] = useState()
 
+
+//   const dateContext = useContext(ChangeDate)
+//     const authData = useContext(MyContext)
+//     const selectedDate = dateContext.selectedDate.localDate;
+//     const id = authData.data.id
+
+    
+//     if(selectedDate){
+//         Axios.post('http://localhost:3001/selectedDateTask', {
+//             selectedDate,
+//             id,
+//         }).then((response) => {
+//     //   console.log(response.data);
+//       if(response.data){
+//           console.log(response.data);
+//       }      
+//     });
+// }
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(todo)
 
     if (editId) {
       const editTodo = todos.find((i) => i.id === editId);
@@ -31,6 +54,7 @@ const Todo = () => {
 
     if (todo !== "") {
       setTodos([{ id: `${todo}-${Date.now()}`, todo,startTime,endTime }, ...todos]);
+      // console.log("todos",todos);
       setTodo("");
     }
   };
@@ -69,6 +93,7 @@ const Todo = () => {
 
         <TodoList
           todos={todos}
+          setTodos={setTodos}
           handleEdit={handleEdit}
           handleDelete={handleDelete}
         />
