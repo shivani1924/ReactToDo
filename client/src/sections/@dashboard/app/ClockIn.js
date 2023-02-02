@@ -30,6 +30,9 @@ const TotalTimeCounter = () => {
 }
 
 
+
+
+
 function ClockIn1(){   
 
     const dateContext = useContext(ChangeDate)
@@ -40,8 +43,21 @@ function ClockIn1(){
     const [start,setStart] = useState(localStorage.getItem('start')?new Date(localStorage.getItem('start')):null);
     const [startTimeString , setstartTimeString] = useState("")
     const [timer,setTimer] = useState([0,0,0]);
-    const [status,setStatus] = useState("loggedIn")
+    const [status,setStatus] = useState()
+    const localDate = date.toLocaleDateString();
 
+    // Axios.post('http://localhost:3001/loggedstatus' , {
+    //       id,
+    //       localDate,
+    //       }).then((response) =>{
+    //         if(response.data.res[0].status === 0){
+
+    //             console.log(response.data.res[0].clockInTime);
+    //             localStorage.setItem('start',response.data.res[0].clockInTime)
+    //             // setStart((response.data.res[0].clockInTime))
+    //         }
+    //         // setStart(response.)
+    //       })
     
     if(selectedDate){
         Axios.post('http://localhost:3001/selectedDate', {
@@ -93,17 +109,13 @@ function ClockIn1(){
     const [breakduration , setbreakduration] = useState(0)
     const ClockIn = async() => {
         
-
         const auth = JSON.parse(localStorage.getItem("user"));       
         const id = auth.result[0].idusers ;
         const clockInTime = new Date();
         const loggedDuration = 0;
         // console.log(clockInTime);
         setbreakduration("0");
-        setStatus("loggedIn")
-        const localDate = date.toLocaleDateString();
-
-
+        setStatus(1)
 
         await Axios.post('http://localhost:3001/logged', {
             id,
@@ -117,20 +129,17 @@ function ClockIn1(){
             setStart(new Date());
             localStorage.setItem('start', new Date());
             setInterval(TotalTimeCounter, 10000);
-
-
-            
     }
-
         ).catch((error) => alert(error.message))
     }
 
+
     const clockOut = async() =>{
+        setStatus(0)
 
         const duration = localStorage.getItem('loggedDuration')
         const localStorageBreak = localStorage.getItem('breakduration')
         setbreakduration(localStorageBreak);
-
         const loggedDuration = duration - breakduration
         console.log(breakduration)
         console.log("logged",loggedDuration);
@@ -144,8 +153,8 @@ function ClockIn1(){
         const id = auth.result[0].idusers ;
         const clockInTime = start;
         const localDate = date.toLocaleDateString();
-        // console.log(logg);
-        setStatus("loggedout")
+        console.log(status);
+        // setStatus(0)
 
       await Axios.post('http://localhost:3001/clockout', {
       id,
@@ -179,7 +188,7 @@ function ClockIn1(){
 
         const auth = JSON.parse(localStorage.getItem("user"));       
         const id = auth.result[0].idusers ;
-        const clockInTime = start;
+        // const clockInTime = start;
         const localDate = date.toLocaleDateString();
 
       await Axios.post('http://localhost:3001/resume', {
@@ -200,7 +209,7 @@ function ClockIn1(){
         const interval = setInterval(() => {
             const temp = a();
             setTimer(temp);
-        },1000);
+        },[1000]);
         return()=> clearInterval(interval);
     });
     return (

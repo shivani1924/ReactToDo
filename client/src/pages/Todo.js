@@ -42,10 +42,12 @@ const Todo = () => {
             
           const id = response.data.res[i].taskId
           console.log(id);
-          setTodo(response.data.res[i].todo)
+          // setTodo(response.data.res[i].todo)
+          const task = response.data.res[i].todo
           setStartTime(response.data.res[i].start)
           setEndTime(response.data.res[i].end)
-          setTodos([ {id, todo , startTime , endTime},...todos]);
+          setTodos([ {id, "todo":task , startTime , endTime},...todos]);
+          setTodo("")
           });
           // console.log(todos)
       }      

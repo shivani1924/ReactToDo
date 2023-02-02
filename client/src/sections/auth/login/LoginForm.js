@@ -1,5 +1,5 @@
 import { useState , useContext, useEffect} from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate  } from 'react-router-dom';
 // @mui
 import { Link, Stack, IconButton, InputAdornment, TextField, Checkbox } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
@@ -18,6 +18,7 @@ export default function LoginForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loginStatus, setLoginStatus] = useState("");
+  // const history = useHistory();
   useEffect(() => {
     const auth = localStorage.getItem("user");
     if(auth) {
@@ -25,33 +26,99 @@ export default function LoginForm() {
     }
   },[])
 
-  const handleClick = () => {
-    Axios.post('http://localhost:3001/login', {
-      email,
-      password,
-    }).then((response) => {
-      // console.log(email);
-      // alert('successful')
-      if(response.data.message){
-        alert("Please enter correct credential");
-      }
+  const handleClick = async() => {
+  //   Axios.post('http://localhost:3001/login', {
+  //     email,
+  //     password
+  //   } ,headers={"Content-Type": "application/json"}).then((response) => {
+  //     // console.log(email);
+  //     // alert('successful')
+  //     if(response.data.message){
+  //       alert("Please enter correct credential");
+  //     }
+  //     else{
+  //       console.log(response);
+  //       if(response.data.auth){
+  //         localStorage.setItem("user" , JSON.stringify(response.data));
+  //         navigate('/dashboard', { replace: true });
+  //         // response.cookie("token",response.data.auth ,{httpOnly : true, expires:"2h"})
+
+  //         // const userid =  localStorage.getItem("user");
+  //         const id = response.data.result[0].idusers;
+  //         const date= new Date();
+  //         const localDate = date.toLocaleDateString()
+  //         Axios.post('http://localhost:3001/loggedstatus' , {
+  //         id,
+  //         localDate,
+  //         }).then((response)=>{
+  //           console.log(response.data.res[0]);
+  //           if(response.data.res[0].status === 0){
+  //           localStorage.setItem("start",response.data.res[0].clockInTime)
+  //   //         localStorage.removeItem("loggedtime")
+  //   // localStorage.removeItem("loggedDuration")
+  //   // localStorage.removeItem("break")
+  //   localStorage.setItem("breakduration",response.data.res[0].break)
+  //         }
+  //         })
+
+
+  //       }
+  //     }
+  // });
+
+
+      // const { email, password } = loginData;
+
+      const response = await fetch("http://localhost:3001/login", {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+        },
+        body: JSON.stringify({ email, password }),
+        
+      });
+
+      // const body = await res.json();
+
+      const data = await response.json()
+      console.log(data)
+
+      if(response.status !== 200){
+              alert("Please enter correct credential");
+            }
       else{
-        console.log(response.data.auth);
-        if(response.data.auth){
-          localStorage.setItem("user" , JSON.stringify(response.data));
-          navigate('/dashboard', { replace: true });
-          // const id =  localStorage.getItem
-          // Axios.post('http://localhost:3001/loggedstatus' , {
-          
-          // })
-
-
-        }
-      }
-  });
-    // navigate('/dashboard', { replace: true });
-
+          console.log(response);
+            if(data.auth){
+                localStorage.setItem("user" , JSON.stringify(data));
+                navigate('/dashboard', { replace: true });
+                // response.cookie("token",response.data.auth ,{httpOnly : true, expires:"2h"})
+      
+                // const userid =  localStorage.getItem("user");
+                const id = data.result[0].idusers;
+                const date= new Date();
+                const localDate = date.toLocaleDateString()
+                Axios.post('http://localhost:3001/loggedstatus' , {
+                id,
+                localDate,
+                }).then((response)=>{
+                  console.log(response.data.res[0]);
+                  if(response.data.res[0].status === 0){
+                  localStorage.setItem("start",response.data.res[0].clockInTime)
+          //         localStorage.removeItem("loggedtime")
+          // localStorage.removeItem("loggedDuration")
+          // localStorage.removeItem("break")
+          localStorage.setItem("breakduration",response.data.res[0].break)
+                }
+                })
+      
+      
+              }
+            }
+    
   };
+
+
+  
 
   return (
     <>

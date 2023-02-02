@@ -52,6 +52,12 @@ export default function AccountPopover() {
 
     navigate('/login', { replace: true });
     localStorage.removeItem("user")
+    localStorage.removeItem("loggedtime")
+    localStorage.removeItem("start")
+    localStorage.removeItem("loggedDuration")
+    localStorage.removeItem("break")
+    localStorage.removeItem("breakduration")
+
 
   };
 

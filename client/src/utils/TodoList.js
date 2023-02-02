@@ -27,8 +27,11 @@ console.log("todos",todos)
           {/* <span className="todoText" key={t.id}>
             {t.startTime}
           </span> */}
+          <>
+          
           <button onClick={() => handleEdit(t.id)}>Edit</button>
           <button onClick={() => handleDelete(t.id)}>Delete</button>
+          </>
           {/* hhvhv */}
         </li>
       ))}

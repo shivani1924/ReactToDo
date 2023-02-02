@@ -7,6 +7,8 @@ const cors = require("cors");
 const jwt = require("jsonwebtoken");
 const { response } = require("express");
 const jwtKey = 'f-t';
+// const session = require("cookie-parder");
+const cookieParser = require("cookie-parser");
 
 
 
@@ -18,9 +20,10 @@ const db = mysql.createPool({
     database: "firsttouch",
 });
 
-app.use(cors());
+app.use(cors({origin: ["http://localhost:3000"]}))
 app.use(express.json());
 app.use(bodyParser.urlencoded({extended:true}))
+app.use(cookieParser())  
 
 app.post("/signup", (req, res) => {
     const firstName = req.body.firstName
@@ -30,7 +33,7 @@ app.post("/signup", (req, res) => {
     const sqlInsert = "INSERT INTO users (firstName, lastName, email, password) VALUES (?,?,?,?)"
     db.query(sqlInsert,[firstName, lastName, email, password], (err, result) => {
         // console.log(err);
-        console.log({result});   
+        // console.log({result});   
         if (err){
             // console.log(err);
             res.send({err: err})
@@ -44,8 +47,9 @@ app.post("/signup", (req, res) => {
             } 
             if (result.length > 0) {
                 jwt.sign({result},jwtKey,{expiresIn:"2h"},(err,token) =>{
-                    
                     res.send({ result, auth : token});
+                    // res.cookie("token",token ,{httpOnly : true})
+
                 })
             } 
     })  
@@ -64,11 +68,28 @@ app.post("/login", (req, res)=> {
             if (err){
                 // console.log(err);
                 res.send({err: err})
-            } 
+            }
             if (result.length > 0) {
-                jwt.sign({result},jwtKey,{expiresIn:"2h"},(err,token) =>{
-                    
-                    res.send({ result,auth:token});
+                jwt.sign({"id":result.idusers},jwtKey,(err,token) =>{
+                    if(token){
+                        // const t = token.toString()
+                        res.cookie("token",token, {
+                            expires: new Date(Date.now() + 25892000000)
+                            // httpOnly:true
+                        });
+                        res.send({ result,auth:token});
+                        localStorage.setItem("token",token);
+                        // res.session = {
+                        //     jwt: token
+                        // };
+                        // console.log(token);
+                        // res.session = {
+                        //     jwt: token
+                        // };
+                        console.log({result});
+
+                    }
+
                 })
             } else{
                 res.send({ message: "Wrong username password"});
@@ -240,6 +261,26 @@ app.post("/getTask", (req, res)=> {
     })
 
 })
+
+app.post("/loggedstatus", (req, res)=> {
+    // const firstName = req.body.firstName
+    // const lastName = req.body.lastName
+    const date = req.body.localDate
+    const id = req.body.id
+    // console.log(id);
+    const sqlInsert = " SELECT * From clockin  where date = ? AND  userId = ?"
+    db.query(sqlInsert,[date, id], 
+        (err, result) => {
+            if (err){
+                // console.log(err);
+                res.send({err: err})
+            } else {
+                res.send({res:result});
+            }
+    })
+
+})
+
 
 app.listen(3001, () => {
     console.log("3001")
