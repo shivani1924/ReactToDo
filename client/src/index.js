@@ -3,6 +3,8 @@ import { BrowserRouter } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
 
 //
+import axios from 'axios';
+import { configs } from 'eslint-plugin-prettier';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import reportWebVitals from './reportWebVitals';
@@ -10,6 +12,13 @@ import reportWebVitals from './reportWebVitals';
 // ----------------------------------------------------------------------
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
+axios.interceptors.request.use((config) => {
+  const token = localStorage.getItem('jwt');
+  if(token) config.headers.Authorization = `Bearer ${token}`;
+  return config
+},error => {
+  return Promise.reject(error);
+})
 
 root.render(
   <HelmetProvider>

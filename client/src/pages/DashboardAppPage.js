@@ -41,7 +41,7 @@ export default function DashboardAppPage() {
                     (data) => {
                       return(
                         
-                        <Typography variant="h4" sx={{ mb: 5 }}>
+                        <Typography variant="h4" sx={{ mb: 5 }} fontFamily="sans-serif">
                           Hi &nbsp;
                           {data.data.name}
                           ,Welcome back
@@ -51,11 +51,10 @@ export default function DashboardAppPage() {
                   }
           </MyContext.Consumer> 
 
-        <Grid container spacing={3}>
-          <Grid item xs={12} sm={6} md={12} bgcolor='#D1E9FC'>
+        <Grid container spacing={2}>
+          <Grid item xs={6} sm={6} md={6} fontFamily={'Trebuchet MS'} fontSize={22} border={0.5} borderRadius={3} boxShadow={1}>
     
             <ClockIn1/>
-            {/* <AppWidgetSummary title="Weekly Sales" total={714000} icon={'ant-design:android-filled'} /> */}
           </Grid>
 
           {/* <Grid item xs={12} sm={6} md={3}>
@@ -71,8 +70,8 @@ export default function DashboardAppPage() {
           </Grid> */}
 
           <Grid item xs={12} md={6} lg={12}>
-            {/* <AppWebsiteVisits
-              title="Website Visits"
+            <AppWebsiteVisits
+              title="Average working hours"
               subheader="(+43%) than last year"
               chartLabels={[
                 '01/01/2003',
@@ -94,20 +93,20 @@ export default function DashboardAppPage() {
                   fill: 'solid',
                   data: [23, 11, 22, 27, 13, 22, 37, 21, 44, 22, 30],
                 },
-                {
-                  name: 'Team B',
-                  type: 'area',
-                  fill: 'gradient',
-                  data: [44, 55, 41, 67, 22, 43, 21, 41, 56, 27, 43],
-                },
-                {
-                  name: 'Team C',
-                  type: 'line',
-                  fill: 'solid',
-                  data: [30, 25, 36, 30, 45, 35, 64, 52, 59, 36, 39],
-                },
+                // {
+                //   name: 'Team B',
+                //   type: 'area',
+                //   fill: 'gradient',
+                //   data: [44, 55, 41, 67, 22, 43, 21, 41, 56, 27, 43],
+                // },
+                // {
+                //   name: 'Team C',
+                //   type: 'line',
+                //   fill: 'solid',
+                //   data: [30, 25, 36, 30, 45, 35, 64, 52, 59, 36, 39],
+                // },
               ]}
-            /> */}
+            />
 
 
             <Todo/>

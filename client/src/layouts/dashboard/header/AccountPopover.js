@@ -57,6 +57,8 @@ export default function AccountPopover() {
     localStorage.removeItem("loggedDuration")
     localStorage.removeItem("break")
     localStorage.removeItem("breakduration")
+    // localStorage.removeItem("jwt")
+
 
 
   };

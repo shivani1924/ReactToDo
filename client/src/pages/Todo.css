@@ -3,7 +3,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #dbaec8;
+    background-color: #ac1c70;
   }
   
   .container {
@@ -14,20 +14,24 @@
     flex-direction: column;
     align-items: center;
     font-size: 20px;
-    color: white;
+    color: rgb(230, 226, 226);
   }
   
   .todoForm {
     display: flex;
-    justify-content: space-around;
-    width: 600px;
+    /* justify-content: space-around; */
+    /* width: 600px; */
   }
   
   input {
-    width: 40%;
-    padding: 10px;
-    border-radius: 20px;
-    border: none;
+    width: 60%;
+    /* padding: 5px; */
+     border-radius: 10px; 
+    /* border:1px blueviolet; 
+    border:1cm;
+    box-sizing: 1; */
+    border: 1px solid rgb(98, 190, 233);
+
   }
   
   button {
@@ -52,4 +56,25 @@
   }
   .todoText {
     flex: 1;
+  }
+  .select {
+    color: #0b3af79f;
+    /* user-select: text; */
+    text-decoration-color: #ac1c70;
+    /* .select-start { */
+      
+    /* } */
+  }
+
+
+  #react-time-range select {
+    /* display: none;  */
+    /* background-color: #ac1c70;
+    border: #ac1c70; */
+    /* --select-border:blue; */
+    background-color: none;
+    background: none;
+    border:none;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+
   }

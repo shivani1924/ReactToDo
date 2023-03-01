@@ -1,7 +1,8 @@
 import React, { useState,useContext } from "react";
 // import "./App.css";
-import "./Todo.css"
+// import "./Todo.css"
 import  Axios  from "axios";
+import { Grid,Typography } from "@mui/material";
 import TodoForm from "../utils/TodoForm";
 import TodoList from "../utils/TodoList";
 import { ChangeDate , MyContext } from '../App';
@@ -14,7 +15,7 @@ const Todo = () => {
   const [todo, setTodo] = useState("");
   const [todos, setTodos] = useState([]);
   const [editId, setEditId] = useState(0);
-  const[i,seti]=useState(0)
+  const [i,seti]=useState(0)
 
 
   const [startTime,setStartTime] = useState()
@@ -22,9 +23,9 @@ const Todo = () => {
 
 
   const dateContext = useContext(ChangeDate)
-    const authData = useContext(MyContext)
-    const selectedDate = dateContext.selectedDate.localDate;
-    const id = authData.data.id
+  const authData = useContext(MyContext)
+  const selectedDate = dateContext.selectedDate.localDate;
+  const id = authData.data.id
 
     
     if(selectedDate){
@@ -88,9 +89,15 @@ const Todo = () => {
   };
 
   return (
-    <div className="App">
-      <div className="container">
-        <h1>Add Task for today.</h1>
+    <Grid container spacing={2}>
+    
+      {/* <div> */}
+      
+      <Typography variant="h6" sx={{ mb: 1 }}>
+        Add Task for today.</Typography>
+      {/* <Grid item xs={12} sm={6} md={12} bgcolor='#EFEEEC'> */}
+      <Grid item xs={12} sm={6} md={12} boxShadow={6} bgcolor='#ffffff'>
+
         <TodoForm
           handleSubmit={handleSubmit}
           todo={todo}
@@ -107,6 +114,7 @@ const Todo = () => {
           handleDelete={handleDelete}
           
         />
+        </Grid>
 
         <TodoList
           todos={todos}
@@ -114,8 +122,9 @@ const Todo = () => {
           handleEdit={handleEdit}
           handleDelete={handleDelete}
         />
-      </div>
-    </div>
+      {/* </div> */}
+      {/* </Grid> */}
+    </Grid>
   );
 };
 

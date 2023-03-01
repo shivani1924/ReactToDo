@@ -5,6 +5,9 @@ import TimeRange from 'react-time-range';
 import moment from 'moment';
 import { getTime } from "date-fns";
 import Axios from "axios";
+import '../pages/Todo.css'
+// import { red } from "@mui/material/colors";
+import { Grid,Button } from "@mui/material";
 
 //----------------------------------------------------------------------------------------------------------------
 
@@ -38,6 +41,7 @@ const TodoForm = ({ handleSubmit, todo, editId, setTodo ,startTime, setStartTime
         value={todo}
         onChange={(e) => setTodo(e.target.value)}
       />
+      <Grid color='#D1E9FC' >
       <TimeRange
         startMoment={startTime}
         endMoment={endTime}
@@ -46,8 +50,14 @@ const TodoForm = ({ handleSubmit, todo, editId, setTodo ,startTime, setStartTime
           setEndTime(endTime)
           console.log(startTime,endTime)
         }}
+        // bgcolor='red'
+        className='select'
+        // id = 'select'
+        
       />
-      <button type="submit" onClick={go}> {editId ? "Edit" : "Go"}</button>
+    
+      </Grid>
+      <Button type="submit" onClick={go}> {editId ? "Edit" : "Add"}</Button>
 
     </form>
   );

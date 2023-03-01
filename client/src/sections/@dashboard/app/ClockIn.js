@@ -1,6 +1,12 @@
 import {useState,useEffect, useContext} from 'react';
 import Axios from 'axios';
+import { Button,Typography,Grid ,Box,item} from '@mui/material';
 import { ChangeDate , MyContext  } from '../../../App';
+import {
+    AppWidgetSummary
+  } from '.'
+//   '../../sections/@dashboard/app';
+// import Typography from '@mui/material';
 
 
 //-----------------------------------------------------------------------------------------------------------------
@@ -28,8 +34,6 @@ const TotalTimeCounter = () => {
         </>
     );
 }
-
-
 
 
 
@@ -199,9 +203,7 @@ function ClockIn1(){
       localDate
     }).then((response) => {
       alert('successful')
-    });
-
-        
+    });        
     }
     const [s,sets] =useState(calTime(localStorage.getItem('breakduration')))
     const properbreaktime = s;
@@ -213,74 +215,146 @@ function ClockIn1(){
         return()=> clearInterval(interval);
     });
     return (
-       <div className='FullScreen'>
-            <div className='clockInOverview'>
-                <div className='clockInTime'>
-                    {date?.toDateString()}
-                </div>
-                <div>
-                {
+    //    <div className='FullScreen'>
+    //         <div className='clockInOverview'>
+    //             <div className='clockInTime'>
+    //                 {date?.toDateString()}
+    //             </div>
+    //             <div>
+    //             {
+    //                 start != null
+    //                 ?
+    //                 <div>
+    //                     <Typography variant="subtitle2" sx={{ color: 'text.primary' }}>
+                    
+    //                     { timer[0] >= 10 ? timer[0] : 0 + timer[0]} :
+    //                     { timer[1] >= 10 ? timer[1] : 0 + timer[1]} : 
+    //                     { timer[2] >= 10 ? timer[2] : 0 + timer[2]}
+    //                     </Typography>
+
+    //                         <div>
+    //                             <Grid item xs={6} sm={6} md={3}>
+
+    //                                     <h5>Clock In Time</h5>
+    //                                     <h6>{start?.toLocaleTimeString()}</h6>
+
+    //                             </Grid>
+    //                             <div className='clockTime'>
+    //                                     <h5>Break Duration</h5>
+    //                                     <h6>{properbreaktime[0]}:{properbreaktime[1]}:{properbreaktime[2]}</h6>
+    //                             </div>        
+    //                         </div>
+
+    //                     <>
+                        
+    //                         <> 
+    //                             <div className='clockInButton'>
+    //                                 <Button variant='contained' onClick={clockOut}>
+    //                                     Clock Out
+    //                                 </Button>
+    //                         <>
+    //                         {
+    //                            isbreak === 1 ? 
+    //                            <>
+    //                                 <Button variant='contained' onClick={Resume}>
+    //                                     Resume
+    //                                 </Button> 
+    //                            </>
+    //                            :
+    //                            <>
+    //                                 <Button variant='contained' onClick={Break}>
+    //                                     Break
+    //                                 </Button>
+    //                            </>                               
+    //                         }
+                                
+    //                         </>
+    //                     </div>
+    //                     </>
+                        
+                    
+    //                 </>
+    //                 </div>
+    //                 : 
+    //                 <div className='clockInFont'>
+    //                     00:00:00
+    //                     <div className='clockInButton'>
+    //                         <Button variant='contained' onClick={ClockIn}>Clock In</Button>
+    //                     </div>
+    //                 </div>
+    //             }
+
+    //         </div>
+    //     </div>
+    // </div> 
+        <Grid container spacing={2} textAlign={'center'}>
+            <Grid item xs={12} sm={6} md={12} fontFamily={'Trebuchet MS'} fontSize={22}>
+                    {date?.toDateString()}     
+            </Grid>
+            <Grid item xs={12} sm={6} md={12} fontFamily={'Trebuchet MS'} fontSize={22}>
+            {
                     start != null
                     ?
-                    <div className='clockInFont'>
-                        <>
+                    <Grid item xs={12} sm={6} md={12} bgcolor='#D1E9FC' fontFamily={'Trebuchet MS'} fontSize={22}>
+                        <Typography variant="subtitle10" sx={{ color: 'text.primary' }}>
                         { timer[0] >= 10 ? timer[0] : 0 + timer[0]} :
                         { timer[1] >= 10 ? timer[1] : 0 + timer[1]} : 
                         { timer[2] >= 10 ? timer[2] : 0 + timer[2]}
-                        </>
-
-                            <div className='description'>
-                                <div className='clockTime'>
+                        </Typography>
+                        <Box sx={{ flexGrow: 1 }}>
+                        <Grid container rowSpacing={1}  bgcolor='#D1E9FC' fontFamily={'Trebuchet MS'} fontSize={22}>
+                                <Grid item xs={6} textAlign={'center'}>
+                                    <item>
                                         <h5>Clock In Time</h5>
                                         <h6>{start?.toLocaleTimeString()}</h6>
-                                </div>
-                                <div className='clockTime'>
+                                    </item>
+                                </Grid>
+                                <Grid item xs={6} textAlign={'center'}>
                                         <h5>Break Duration</h5>
                                         <h6>{properbreaktime[0]}:{properbreaktime[1]}:{properbreaktime[2]}</h6>
-                                </div>        
-                            </div>
-
+                                </Grid>        
+                            </Grid>
+                            </Box>
                         <>
-                        
                             <> 
-                                <div className='clockInButton'>
-                                    <button onClick={clockOut}>
-                                        Clock Out
-                                    </button>
-                            <>
-                            {
-                               isbreak === 1 ? 
-                               <>
-                                    <button onClick={Resume}>
-                                        Resume
-                                    </button> 
-                               </>
-                               :
-                               <>
-                                    <button onClick={Break}>
-                                        Break
-                                    </button>
-                               </>                               
-                            }
+                                <Grid textAlign={'center'}  item xs={12} sm={6} md={12} bgcolor='#D1E9FC' fontFamily={'Trebuchet MS'} fontSize={22}>
                                 
+                                    <Button variant='contained' onClick={clockOut}>
+                                        Clock Out
+                                    </Button>
+                                    <>
+                                    {
+                                    isbreak === 1 ? 
+                                    <>
+                                            <Button variant='contained' onClick={Resume}>
+                                                Resume
+                                            </Button> 
+                                    </>
+                                    :
+                                    <>
+                                            <Button variant='contained' onClick={Break}>
+                                                Break
+                                            </Button>
+                                    </>                               
+                                    }                                
+                                    </>
+                                </Grid>
                             </>
-                        </div>
                         </>
-                        
-                    
-                    </>
-                    </div>
+                    </Grid>
                     : 
-                    <div className='clockInFont'>
+                    <Grid item xs={12} sm={6} md={12} bgcolor='#D1E9FC' fontFamily={'Trebuchet MS'} fontSize={22}>
+
                         00:00:00
-                        <div className='clockInButton'>
-                            <button onClick={ClockIn}>Clock In</button>
-                        </div>
-                    </div>
+                        <Grid item xs={12} sm={6} md={12} bgcolor='#D1E9FC' fontFamily={'Trebuchet MS'} fontSize={22}>
+
+                            <Button variant='contained' onClick={ClockIn}>Clock In</Button>
+                        </Grid>
+                    </Grid>
                 }
-            </div>
-        </div>
-    </div> 
+            </Grid>
+        </Grid>
+
 );
 }
 
