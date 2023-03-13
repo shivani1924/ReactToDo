@@ -51,47 +51,26 @@ export default function DashboardAppPage() {
                   }
           </MyContext.Consumer> 
 
-        <Grid container spacing={2}>
-          <Grid item xs={6} sm={6} md={6} fontFamily={'Trebuchet MS'} fontSize={22} border={0.5} borderRadius={3} boxShadow={1}>
-    
-            <ClockIn1/>
-          </Grid>
-
-          {/* <Grid item xs={12} sm={6} md={3}>
-            <AppWidgetSummary title="New Users" total={1352831} color="info" icon={'ant-design:apple-filled'} />
-          </Grid>
-
-          <Grid item xs={12} sm={6} md={3}>
-            <AppWidgetSummary title="Item Orders" total={1723315} color="warning" icon={'ant-design:windows-filled'} />
-          </Grid>
-
-          <Grid item xs={12} sm={6} md={3}>
-            <AppWidgetSummary title="Bug Reports" total={234} color="error" icon={'ant-design:bug-filled'} />
-          </Grid> */}
-
-          <Grid item xs={12} md={6} lg={12}>
+        <Grid container spacing={1}>
+          
+          <Grid item xs={1} sm={2} md={4}>
+            {/* <AppWidgetSummary title="Item Orders" total={1723315} color="warning" icon={'ant-design:windows-filled'} /> */}
             <AppWebsiteVisits
-              title="Average working hours"
-              subheader="(+43%) than last year"
+              title="Total Working Hours"
+              // subheader="(+43%) than last year"
               chartLabels={[
-                '01/01/2003',
-                '02/01/2003',
-                '03/01/2003',
-                '04/01/2003',
-                '05/01/2003',
-                '06/01/2003',
-                '07/01/2003',
-                '08/01/2003',
-                '09/01/2003',
-                '10/01/2003',
-                '11/01/2003',
+                '02/27/2023',
+                '02/28/2023',
+                '03/01/2023',
+                '03/02/2023',
+                '03/03/2023',
               ]}
               chartData={[
                 {
                   name: 'Team A',
                   type: 'column',
                   fill: 'solid',
-                  data: [23, 11, 22, 27, 13, 22, 37, 21, 44, 22, 30],
+                  data: [23, 11, 22, 27, 13],
                 },
                 // {
                 //   name: 'Team B',
@@ -107,6 +86,24 @@ export default function DashboardAppPage() {
                 // },
               ]}
             />
+          </Grid>
+          <Grid item xs={6} sm={6} md={8} fontFamily={'Trebuchet MS'} fontSize={22} border={0.5} borderRadius={3} boxShadow={1}>
+    
+            <ClockIn1/>
+          </Grid>
+
+          {/* <Grid item xs={12} sm={6} md={3}>
+            <AppWidgetSummary title="New Users" total={1352831} color="info" icon={'ant-design:apple-filled'} />
+          </Grid>
+
+          
+
+          <Grid item xs={12} sm={6} md={3}>
+            <AppWidgetSummary title="Bug Reports" total={234} color="error" icon={'ant-design:bug-filled'} />
+          </Grid> */}
+
+          <Grid item xs={12} md={6} lg={12}>
+            
 
 
             <Todo/>
