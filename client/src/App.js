@@ -1,5 +1,8 @@
 // routes
-import { createContext,useReducer } from 'react';
+import { createContext,useEffect,useReducer } from 'react';
+import axios from 'axios';
+
+import { useNavigate } from 'react-router-dom';
 import Router from './routes';
 // theme
 import ThemeProvider from './theme';
@@ -13,7 +16,51 @@ export const ChangeDate = createContext()
 export const loggedStatus = createContext()
 
 export default function App() {
+  const navigate = useNavigate();
+useEffect(()=>{
 
+  const A = () => {
+
+     axios.interceptors.request.use((config) => {
+    
+      if(token) config.headers.Authorization = `Bearer ${token}`;
+      return config
+    },error => {
+    //   console.log(error)
+    // navigate('/');
+    alert("error.message")
+      return Promise.reject(error);
+    
+    })
+  }
+  const token = localStorage.getItem('jwt');
+
+  if(token){
+    A();
+  }
+  else{
+    navigate('/');
+  }
+},[])
+
+  axios.interceptors.response.use( response =>{
+    // Do something with response data
+    return response;
+  },error => {
+    // Do something with response error
+    const err = error.response.status;
+    if (err === 498) {
+      // DELETE YOUR TOKEN 
+      // this.removeToken();
+      localStorage.removeItem("jwt");
+      localStorage.removeItem("user");
+
+      navigate("/");
+    }
+
+
+    return Promise.reject(error);
+  });
   const iState = ""
   const reducer = (state,action) => {
     switch(action.type){

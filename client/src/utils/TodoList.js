@@ -6,7 +6,7 @@ import { ChangeDate , MyContext } from '../App';
 
 
 const TodoList = ({ todos, handleDelete, handleEdit}) => {
-console.log("todos",todos)
+// console.log("todos",todos)
 
 
   

@@ -22,7 +22,6 @@ const db = mysql.createPool({
 //Middleware................................................
 //----------------------------------------------------------
 
-
 app.use(cors())
 app.use(express.json());
 app.use(bodyParser.urlencoded({extended:true}))
@@ -77,7 +76,9 @@ app.post("/login", (req, res)=> {
     })
 })
 
-app.post("/logged", verifyAccessToken , async(req, res) => {
+app.use(verifyAccessToken)
+
+app.post("/logged" , async(req, res) => {
     const clockInTime = req.body.clockInTime
     const localDate = req.body.localDate
     const loggedDuration = req.body.loggedDuration
@@ -109,7 +110,7 @@ app.post("/logged", verifyAccessToken , async(req, res) => {
 });
 
 
-app.post("/clockout", verifyAccessToken, async(req, res) => {
+app.post("/clockout", async(req, res) => {
     const id = req.body.id
     const status = req.body.status
 
@@ -131,7 +132,7 @@ const data = await db.query(sqlInsert,[status,stringloggedDuration, breakduratio
 
 
 
-app.post("/resume", verifyAccessToken, (req, res) => {
+app.post("/resume", (req, res) => {
     const id = req.body.id
     const localDate = req.body.localDate
     const breakduration = req.body.breakduration
@@ -146,7 +147,7 @@ app.post("/resume", verifyAccessToken, (req, res) => {
 
 
 
-app.post("/task",verifyAccessToken, (req, res) => {
+app.post("/task", (req, res) => {
     const userId = req.body.userId
     const id = req.body.id
     const todo = req.body.todo
@@ -165,7 +166,7 @@ app.post("/task",verifyAccessToken, (req, res) => {
 });
 
 
-app.post("/selectedDate", verifyAccessToken, (req, res)=> {
+app.post("/selectedDate", (req, res)=> {
 
     const selectedDate = req.body.selectedDate
     const id = req.body.id
@@ -194,7 +195,9 @@ app.post("/selectedDate", verifyAccessToken, (req, res)=> {
 
 
 
-app.post("/getTask", verifyAccessToken, (req, res)=> {
+
+
+app.post("/getTask", (req, res)=> {
     const selectedDate = req.body.selectedDate
     const Id = req.body.id
     
@@ -210,7 +213,7 @@ app.post("/getTask", verifyAccessToken, (req, res)=> {
 
 })
 
-app.post("/loggedstatus", verifyAccessToken,  (req, res)=> {
+app.post("/loggedstatus",  (req, res)=> {
     
     const date = req.body.localDate
     const id = req.body.id

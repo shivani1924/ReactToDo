@@ -9,22 +9,22 @@ module.exports = {
 
 
 verifyAccessToken: (req,res,next) => {
-    if(!req.headers['authorization']) return next(createError.Uauthorized())
+    if(!req.headers['authorization']) return next(createError.Unauthorized())
     const authHeader = req.headers['authorization']
     const bearerToken = authHeader.split(' ')
     const token = bearerToken[1]
     console.log(token)
     JWT.verify(token,jwtkey,(err,payload)=>{
         if(err) {
-            console.log(err)
-            const errMessage = 
-                err.name === JsonWebTokenError ? 'Unauthorized' : err.errMessage
-
-            return next(createError.Unauthorized(errMessage))
+            const errMessage = err.name === "JsonWebTokenError" ? 'Unauthorized' : err.errMessage
+            return res.status(498).json({"message":errMessage})
+            // return next(createError.Unauthorized(errMessage))
 
         }
-        req.payload = payload
-        next()
+        if(payload){
+            req.payload = payload
+            next()
+        }
     })
 }
 }

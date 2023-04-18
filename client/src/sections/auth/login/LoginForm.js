@@ -46,22 +46,19 @@ export default function LoginForm() {
           // response.cookie("token",response.data.auth ,{httpOnly : true, expires:"2h"})
 
           // const userid =  localStorage.getItem("user");
-          const id = response.data.result[0].idusers;
-          const date= new Date();
-          const localDate = date.toLocaleDateString()
-          Axios.post('http://localhost:3001/loggedstatus' , {
-          id,
-          localDate,
-          }).then((response)=>{
-            console.log(response.data.res[0]);
-            if(response.data.res[0].status === 0){
-            localStorage.setItem("start",response.data.res[0].clockInTime)
-    //         localStorage.removeItem("loggedtime")
-    // localStorage.removeItem("loggedDuration")
-    // localStorage.removeItem("break")
-    localStorage.setItem("breakduration",response.data.res[0].break)
-          }
-          })
+          // const id = response.data.result[0].idusers;
+          // const date= new Date();
+          // const localDate = date.toLocaleDateString()
+          // Axios.post('http://localhost:3001/loggedstatus' , {
+          // id,
+          // localDate,
+          // }).then((response)=>{
+          //   console.log(response.data.res[0]);
+          //   if(response.data.res[0].status === 0){
+          //   localStorage.setItem("start",response.data.res[0].clockInTime)
+          //   localStorage.setItem("breakduration",response.data.res[0].break)
+          // }
+          // })
 
 
         }
