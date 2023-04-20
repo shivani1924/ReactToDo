@@ -19,9 +19,9 @@ export default function App() {
   const navigate = useNavigate();
 useEffect(()=>{
 
-  const A = () => {
-
-     axios.interceptors.request.use((config) => {
+  const A = async() => {
+    // axios.defaults.headers.Authorization = `Bearer ${token}`;
+     await axios.interceptors.request.use((config) => {
     
       if(token) config.headers.Authorization = `Bearer ${token}`;
       return config

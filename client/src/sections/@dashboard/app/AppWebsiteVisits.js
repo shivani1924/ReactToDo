@@ -19,14 +19,14 @@ export default function AppWebsiteVisits({ title, subheader, chartLabels, chartD
     plotOptions: { bar: { columnWidth: '20%' } },
     fill: { type: chartData.map((i) => i.fill) },
     labels: chartLabels,
-    xaxis: { type: 'datetime' },
+    xaxis: { type: 'date' },
     tooltip: {
       shared: true,
       intersect: false,
       y: {
         formatter: (y) => {
           if (typeof y !== 'undefined') {
-            return `${y.toFixed(0)} visits`;
+            return `${y.toFixed(0)} hrs`;
           }
           return y;
         },
@@ -39,7 +39,7 @@ export default function AppWebsiteVisits({ title, subheader, chartLabels, chartD
       <CardHeader title={title} subheader={subheader} />
 
       <Box sx={{ p: 0, pb: 1 }} dir="ltr">
-        <ReactApexChart type="line" series={chartData} options={chartOptions} height={150} />
+        <ReactApexChart type="line" series={chartData} options={chartOptions} height={150} width={400} />
       </Box>
     </Card>
   );
