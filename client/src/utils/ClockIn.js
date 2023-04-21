@@ -43,7 +43,7 @@ const ClockIn1=({date,start,timer,properbreaktime,clockOut,isbreak,Resume,Break,
                                 <Grid textAlign={'center'}  item xs={12} sm={6} md={12} bgcolor='#D1E9FC' fontFamily={'Trebuchet MS'} fontSize={22}>
                                 
                                     <Button variant='contained' onClick={clockOut}>
-                                        Clock Out
+                                        Stop
                                     </Button>
                                     <>
                                     {
@@ -71,7 +71,7 @@ const ClockIn1=({date,start,timer,properbreaktime,clockOut,isbreak,Resume,Break,
                         00:00:00
                         <Grid item xs={12} sm={6} md={12} bgcolor='#D1E9FC' fontFamily={'Trebuchet MS'} fontSize={22}>
 
-                            <Button variant='contained' onClick={ClockIn}>Clock In</Button>
+                            <Button variant='contained' onClick={ClockIn}>Start</Button>
                         </Grid>
                     </Grid>
                 }
