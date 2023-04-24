@@ -57,8 +57,6 @@ useEffect(()=>{
 
       navigate("/");
     }
-
-
     return Promise.reject(error);
   });
   const iState = ""

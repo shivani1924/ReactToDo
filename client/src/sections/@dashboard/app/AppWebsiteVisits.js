@@ -26,7 +26,7 @@ export default function AppWebsiteVisits({ title, subheader, chartLabels, chartD
       y: {
         formatter: (y) => {
           if (typeof y !== 'undefined') {
-            return `${y.toFixed(0)} hrs`;
+            return `${y.toFixed(1)} hrs`;
           }
           return y;
         },

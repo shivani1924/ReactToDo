@@ -10,7 +10,7 @@ function calTime(diffMs) {
   diffHrs = Math.floor(diffMs / 3600) % 24;
   diffMins = Math.floor(diffMs / 60) % 60;
   diffSecs = Math.floor(diffMs % 60);
-  return `${diffHrs}:${diffMins}`;
+  return `${diffHrs}.${diffMins}`;
 }
 const WeeklyChart = ({ firstname, userId }) => {
   const [duration, setDuration] = useState([]);
@@ -32,7 +32,7 @@ const WeeklyChart = ({ firstname, userId }) => {
           }
         });
         const x = tempDuration.map((val) => calTime(parseFloat(val)));
-        tempDura = [...tempDura, ...x];
+        tempDura = [...x,...tempDura];
         setWeekDates(tempDate);
         setDuration(tempDura);
       })

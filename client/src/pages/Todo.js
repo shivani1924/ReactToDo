@@ -354,7 +354,7 @@ const Todo = () => {
             clockInAvg={clockInAvg}
             updateList={updateList}
           />
-        </Grid>
+        </Grid>      
       </Grid>
       <TodoList todos={todos} setTodos={setTodos} handleEdit={handleEdit} handleDelete={handleDelete} />
     </>

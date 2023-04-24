@@ -369,6 +369,21 @@ app.post("/editTask", (req, res) => {
   );
 });
 
+
+// app.post("/fetchduration", (req, res) => {
+
+//   const userId = req.body.userId;
+//   const date = req.body.date;
+//   const sqlInsert = "SELECT * From loggedduration where userId=? and date=?";
+//   db.query(sqlInsert, [userId, date], (err, result) => {
+//     if (err) {
+//       res.send({ err: err });
+//     } else {
+//       res.send({ res: result });
+//     }
+//   });
+// });
+
 app.listen(3001, () => {
   console.log("3001");
 });
