@@ -13,7 +13,7 @@ import { StyledChart } from './components/chart';
 
 export const MyContext = createContext()
 export const ChangeDate = createContext()
-export const loggedStatus = createContext()
+// export const loggedStatus = createContext()
 
 export default function App() {
   const navigate = useNavigate();
@@ -78,25 +78,25 @@ useEffect(()=>{
           return state
     }
   }
-  const loggedReducer = (state,action) => {
-    switch(action.type){
-      case 'CHANGE_lOGGED_STATUS':
-        console.log(action);
-        return action.payload
-        default:
-          return state
-    }
-  }
+  // const loggedReducer = (state,action) => {
+  //   switch(action.type){
+  //     case 'CHANGE_lOGGED_STATUS':
+  //       console.log(action);
+  //       return action.payload
+  //       default:
+  //         return state
+  //   }
+  // }
 
   const [data,dispatch] = useReducer(reducer,iState)
   const [selectedDate,dispatchDate] = useReducer(dateReducer,iState)
-  const [logged,dispatchStatus] = useReducer(loggedReducer,iState)
+  // const [logged,dispatchStatus] = useReducer(loggedReducer,iState)
 
 
   return (
 
     <ThemeProvider>
-      <loggedStatus.Provider value={{logged,dispatchStatus}}>
+      {/* <loggedStatus.Provider value={{logged,dispatchStatus}}> */}
       <MyContext.Provider value={{data,dispatch}}>
       <ChangeDate.Provider value={{selectedDate,dispatchDate}}>
 
@@ -105,7 +105,7 @@ useEffect(()=>{
         <Router />
         </ChangeDate.Provider>
       </MyContext.Provider>
-      </loggedStatus.Provider>
+      {/* </loggedStatus.Provider> */}
     </ThemeProvider>
     
   );

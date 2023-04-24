@@ -43,22 +43,7 @@ export default function LoginForm() {
           localStorage.setItem("jwt" , response.data.auth);
 
           navigate('/dashboard', { replace: true });
-          // response.cookie("token",response.data.auth ,{httpOnly : true, expires:"2h"})
-
-          // const userid =  localStorage.getItem("user");
-          // const id = response.data.result[0].idusers;
-          // const date= new Date();
-          // const localDate = date.toLocaleDateString()
-          // Axios.post('http://localhost:3001/loggedstatus' , {
-          // id,
-          // localDate,
-          // }).then((response)=>{
-          //   console.log(response.data.res[0]);
-          //   if(response.data.res[0].status === 0){
-          //   localStorage.setItem("start",response.data.res[0].clockInTime)
-          //   localStorage.setItem("breakduration",response.data.res[0].break)
-          // }
-          // })
+          
 
 
         }
@@ -66,54 +51,7 @@ export default function LoginForm() {
   });
 
 
-      // const { email, password } = loginData;
-
-      // const response = await fetch("http://localhost:3001/login", {
-      //   method: "POST",
-      //   headers: {
-      //     "content-type": "application/json",
-      //   },
-      //   // credentials : "include",
-      //   body: JSON.stringify({ email, password }),
-        
-      // });
-
-      // // const body = await res.json();
-
-      // const data = await response.json()
-      // console.log(data)
-
-      // if(response.status !== 200){
-      //         alert("Please enter correct credential");
-      //       }
-      // else{
-      //     console.log(response);
-      //       if(data.auth){
-      //           localStorage.setItem("user" , JSON.stringify(data));
-      //           navigate('/dashboard', { replace: true });
-      //           // response.cookie("token",response.data.auth ,{httpOnly : true, expires:"2h"})
-      
-      //           // const userid =  localStorage.getItem("user");
-      //           const id = data.result[0].idusers;
-      //           const date= new Date();
-      //           const localDate = date.toLocaleDateString()
-      //           Axios.post('http://localhost:3001/loggedstatus' , {
-      //           id,
-      //           localDate,
-      //           }).then((response)=>{
-      //             console.log(response.data.res[0]);
-      //             if(response.data.res[0].status === 0){
-      //             localStorage.setItem("start",response.data.res[0].clockInTime)
-      //     //         localStorage.removeItem("loggedtime")
-      //     // localStorage.removeItem("loggedDuration")
-      //     // localStorage.removeItem("break")
-      //     localStorage.setItem("breakduration",response.data.res[0].break)
-      //           }
-      //           })
-      
-      
-      //         }
-      //       }
+    
     
   };
 
