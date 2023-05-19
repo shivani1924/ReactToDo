@@ -1,7 +1,8 @@
-const { JsonWebTokenError } = require("jsonwebtoken");
+require('dotenv').config()
+
 const createError = require('http-errors')
 const JWT = require('jsonwebtoken')
-const jwtkey = 'f-t'
+const jwtkey = process.env.ACCESS_TOKEN_SECRET;
 
 
 

@@ -1,25 +1,23 @@
 import PropTypes from 'prop-types';
-import { useEffect,useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 // @mui
-import { styled, alpha } from '@mui/material/styles';
-import { Box, Link, Button, Drawer, Typography, Avatar, Stack } from '@mui/material';
+import { Avatar, Box, Drawer, Link, Stack, Typography } from '@mui/material';
+import { alpha, styled } from '@mui/material/styles';
 // mock
-import { MyContext } from '../../../App'
+import { MyContext } from '../../../App';
 import account from '../../../_mock/account';
 // hooks
 import useResponsive from '../../../hooks/useResponsive';
 // components
 import Logo from '../../../components/logo';
-import Scrollbar from '../../../components/scrollbar';
 import NavSection from '../../../components/nav-section';
+import Scrollbar from '../../../components/scrollbar';
 //
-import navConfig from './config';
 import Cal from './calendar';
-
+import navConfig from './config';
 
 // ----------------------------------------------------------------------
-
 
 const NAV_WIDTH = 280;
 
@@ -42,19 +40,18 @@ export default function Nav({ openNav, onCloseNav }) {
   const { pathname } = useLocation();
 
   const isDesktop = useResponsive('up', 'lg');
-  const authData = useContext(MyContext)
+  const authData = useContext(MyContext);
 
   useEffect(() => {
-    const auth = JSON.parse(localStorage.getItem("user"));
-    // console.log("auth:", auth.result[0].idusers);
-    if(auth) {
-      const token = auth.auth ;
-      const name = auth.result[0].firstName ;
-      const email = auth.result[0].email ;
-      const id = auth.result[0].idusers ;
+    const auth = JSON.parse(localStorage.getItem('user'));
+    if (auth) {
+      const token = auth.auth;
+      const name = auth.result[0].firstName;
+      const { email } = auth;
 
-      // console.log(name);
-      authData.dispatch({type:"CHANGE_AUTH_DATA",payload:{_token:token,name,email,id}})
+      const id = auth.result[0].idusers;
+
+      authData.dispatch({ type: 'CHANGE_AUTH_DATA', payload: { _token: token, name, email, id } });
     }
 
     if (openNav) {
@@ -80,18 +77,19 @@ export default function Nav({ openNav, onCloseNav }) {
             <Avatar src={account.photoURL} alt="photoURL" />
 
             <Box sx={{ ml: 2 }}>
-                {/* {account.displayName} */}
-                <MyContext.Consumer>
-                  {
-                    ({data}) => {
-                      return(
-                        <Typography variant="subtitle2" sx={{ color: 'text.primary' }}>
+              {/* {account.displayName} */}
+              <MyContext.Consumer>
+                {
+                  // eslint-disable-next-line arrow-body-style
+                  ({ data }) => {
+                    return (
+                      <Typography variant="subtitle2" sx={{ color: 'text.primary' }}>
                         {data.name}
-                        </Typography>
-                      )
-                    }
+                      </Typography>
+                    );
                   }
-                </MyContext.Consumer>
+                }
+              </MyContext.Consumer>
 
               <Typography variant="body2" sx={{ color: 'text.secondary' }}>
                 {account.role}
@@ -107,8 +105,7 @@ export default function Nav({ openNav, onCloseNav }) {
 
       <Box sx={{ px: 2.5, pb: 3, mt: 3 }}>
         <Stack alignItems="center" spacing={3} sx={{ pt: 0, borderRadius: 2, position: 'relative' }}>
-
-          <Cal/>
+          <Cal />
           {/* <Box
             component="img"
             src="/assets/illustrations/illustration_avatar.png"

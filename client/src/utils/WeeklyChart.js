@@ -1,15 +1,14 @@
-import React, { useContext, useEffect, useState } from 'react';
 import Axios from 'axios';
-
+import PropTypes from 'prop-types';
+import { useEffect, useState } from 'react';
 import { AppWebsiteVisits } from '../sections/@dashboard/app';
+
 
 function calTime(diffMs) {
   let diffHrs = 0;
   let diffMins = 0;
-  let diffSecs = 0;
   diffHrs = Math.floor(diffMs / 3600) % 24;
   diffMins = Math.floor(diffMs / 60) % 60;
-  diffSecs = Math.floor(diffMs % 60);
   return `${diffHrs}.${diffMins}`;
 }
 const WeeklyChart = ({ firstname, userId }) => {
@@ -32,7 +31,7 @@ const WeeklyChart = ({ firstname, userId }) => {
           }
         });
         const x = tempDuration.map((val) => calTime(parseFloat(val)));
-        tempDura = [...x,...tempDura];
+        tempDura = [...x, ...tempDura];
         setWeekDates(tempDate);
         setDuration(tempDura);
       })
@@ -47,6 +46,8 @@ const WeeklyChart = ({ firstname, userId }) => {
 
   useEffect(() => {
     setTimeout(chartData, 1000);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -66,3 +67,9 @@ const WeeklyChart = ({ firstname, userId }) => {
 };
 
 export default WeeklyChart;
+
+WeeklyChart.propTypes = {
+  // Your other propTypes here
+  userId: PropTypes.number,
+  firstname: PropTypes.string.isRequired,
+};

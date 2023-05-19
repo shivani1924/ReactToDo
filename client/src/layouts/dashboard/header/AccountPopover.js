@@ -1,11 +1,11 @@
 import { useState } from 'react';
 // @mui
+import { Avatar, Box, Divider, IconButton, MenuItem, Popover, Stack, Typography } from '@mui/material';
 import { alpha } from '@mui/material/styles';
-import { Box, Divider, Typography, Stack, MenuItem, Avatar, IconButton, Popover } from '@mui/material';
 // mocks_
 // import LogOut from '../../../sections/auth/login/Logout';
 import { useNavigate } from 'react-router-dom';
-import { MyContext } from '../../../App'
+import { MyContext } from '../../../App';
 
 import account from '../../../_mock/account';
 // import LogOut from 'src/sections/auth/login/Logout';
@@ -108,23 +108,23 @@ export default function AccountPopover() {
           <MyContext.Consumer>
                   {
                     (data) => {
-                      return(
+                      
                         <Typography variant="subtitle2" noWrap>
                         {data.data.name}
                         </Typography>
-                      )
+                      
                     }
                   }
           </MyContext.Consumer>
           <MyContext.Consumer>
                   {
                     (data) => {
-                      return(
+                      
                         
                         <Typography variant="body2" sx={{ color: 'text.secondary' }} noWrap>
                           {data.data.email}
                         </Typography>
-                      )
+                      
                     }
                   }
           </MyContext.Consumer>

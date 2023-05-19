@@ -1,15 +1,13 @@
-import React, { useState } from 'react';
-
-import TimeRange from 'react-time-range';
-import moment from 'moment';
-import { getTime } from 'date-fns';
+import CloseIcon from '@mui/icons-material/Close';
+import { Button, Grid, IconButton, Snackbar } from '@mui/material';
 import Axios from 'axios';
+import PropTypes from 'prop-types';
+import { useState } from 'react';
+import TimeRange from 'react-time-range';
 import '../pages/Todo.css';
-import { Grid, Button } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
 import ClockIn1 from './ClockIn';
 
-//----------------------------------------------------------------------------------------------------------------
+// Functionality to add task with time.
 
 const TodoForm = ({
   handleSubmit,
@@ -35,35 +33,20 @@ const TodoForm = ({
   const auth = JSON.parse(localStorage.getItem('user'));
   const userId = auth.result[0].idusers;
   const id = `${todo}-${Date.now()}`;
-  const [dur,setDur] = useState(0)
+  const [open, setOpen] = useState(false);
 
-  const go = async () => {
+  const handleNotificationClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpen(false);
+  };
+  const Go = async () => {
     const date = new Date().toLocaleDateString();
 
     console.log(id);
-    console.log(editId);
-
-    // const fetchduration = async() => {
-    //   Axios.post('http://localhost:3001/fetchduration', {
-    //     userId,
-    //     date,
-    //   })
-    //     .then((response) => {
-    //       console.log("Duration" );
-
-    //       console.log(response.data.res[0].duration);
-    //       setDur(parseFloat(response.data.res[0].duration))
-    //       // console.log(dur);
-    //     })
-    //     .catch((error) => {
-    //       const err = error.response.status;
-    //       console.log(error);
-    //       if (err === 498) {
-    //         console.log('498');
-    //       }
-    //     });
-    //   }
-        
+    console.log(startTime);
 
     const loggedTime = async () => {
       Axios.post('http://localhost:3001/loggedduration', {
@@ -73,7 +56,6 @@ const TodoForm = ({
       })
         .then((response) => {
           console.log(response);
-          // alert('successful');
         })
         .catch((error) => {
           const err = error.response.status;
@@ -95,7 +77,7 @@ const TodoForm = ({
     })
       .then((response) => {
         console.log(response);
-        alert('successful');
+        setOpen(true);
 
         loggedTime();
       })
@@ -129,60 +111,94 @@ const TodoForm = ({
           console.log('498');
         }
       });
-      // useEffect(() => {
-      //   setTimeout(fetchduration, 1000);
-      // }, []);
   };
 
   return (
     <>
-    <form className="todoForm" onSubmit={handleSubmit}>
-      <input type="text" value={todo} onChange={(e) => setTodo(e.target.value)} />
-      <Grid item xs={12} sm={12} md={7}>
-        {editId ? (
-          <TimeRange
-            startMoment={startTime}
-            endMoment={endTime}
-            onChange={({ startTime, endTime }) => {
-              setStartTime(startTime);
-              setEndTime(endTime);
-              console.log(startTime, endTime);
-            }}
-            className="select"
-          />
+      <form className="todoForm" onSubmit={handleSubmit}>
+        <input type="text" value={todo} onChange={(e) => setTodo(e.target.value)} />
+        <Grid item xs={12} sm={12} md={7}>
+          {editId ? (
+            <TimeRange
+              startMoment={startTime}
+              endMoment={endTime}
+              onChange={({ startTime, endTime }) => {
+                setStartTime(startTime);
+                setEndTime(endTime);
+                console.log(startTime, endTime);
+              }}
+              className="select"
+            />
+          ) : (
+            <ClockIn1
+              date={date.toDateString()}
+              start={start}
+              timer={timer}
+              properbreaktime={properbreaktime}
+              clockOut={clockOut}
+              isbreak={isbreak}
+              Resume={Resume}
+              Break={Break}
+              ClockIn={ClockIn}
+            />
+          )}
+        </Grid>
+        {todo ? (
+          endTime ? (
+            <Button type="submit" onClick={editId ? editTask : Go}>
+              {' '}
+              {editId ? 'Edit' : 'Add'}
+            </Button>
+          ) : (
+            <Button type="submit" onClick={editId ? editTask : Go} disabled>
+              {' '}
+              {editId ? 'Edit' : 'Add'}
+            </Button>
+          )
         ) : (
-          <ClockIn1
-            date={date.toDateString()}
-            start={start}
-            timer={timer}
-            properbreaktime={properbreaktime}
-            clockOut={clockOut}
-            isbreak={isbreak}
-            Resume={Resume}
-            Break={Break}
-            ClockIn={ClockIn}
-          />
+          <Button type="submit" onClick={editId ? editTask : Go} disabled>
+            {' '}
+            {editId ? 'Edit' : 'Add'}
+          </Button>
         )}
-      </Grid>
-      <Button type="submit" onClick={editId ? editTask : go}>
-        {' '}
-        {editId ? 'Edit' : 'Add'}
-      </Button>
-    </form>
-    {/* <Grid container rowSpacing={1} fontFamily={'Trebuchet MS'} fontSize={22}>
-      <Grid item xs={6} textAlign={'center'}>
-          <item>
-            <h5>Clock In Time</h5>
-            <h6>{dur}</h6>
-          </item>
-      </Grid>
-      <Grid item xs={6} textAlign={'center'}>
-          <h5>Break Duration</h5>
-          <h6>{properbreaktime[0]}:{properbreaktime[1]}:{properbreaktime[2]}</h6>
-      </Grid>        
-     </Grid> */}
+
+        <Snackbar
+          open={open}
+          autoHideDuration={10000}
+          onClose={handleNotificationClose}
+          message="Task is successfully added."
+          action={
+            <IconButton size="small" aria-label="close" color="inherit" onClick={handleNotificationClose}>
+              <CloseIcon fontSize="small" />
+            </IconButton>
+          }
+        />
+      </form>
     </>
   );
 };
 
 export default TodoForm;
+
+TodoForm.propTypes = {
+  // Your other propTypes here
+  updateList: PropTypes.func.isRequired,
+  handleSubmit: PropTypes.func.isRequired,
+  todo: PropTypes.string.isRequired,
+  editId: PropTypes.number.isRequired,
+  setTodo: PropTypes.func.isRequired,
+  startTime: PropTypes.instanceOf(Date),
+  setStartTime: PropTypes.func.isRequired,
+  endTime: PropTypes.instanceOf(Date),
+  setEndTime: PropTypes.func.isRequired,
+  date: PropTypes.instanceOf(Date),
+  start: PropTypes.string,
+  timer: PropTypes.array.isRequired,
+  properbreaktime: PropTypes.array.isRequired,
+  clockOut: PropTypes.func.isRequired,
+  isbreak: PropTypes.number.isRequired,
+  Resume: PropTypes.func.isRequired,
+  Break: PropTypes.func.isRequired,
+  ClockIn: PropTypes.func.isRequired,
+  clockInAvg: PropTypes.number,
+};

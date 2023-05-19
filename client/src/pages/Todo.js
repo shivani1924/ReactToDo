@@ -1,13 +1,11 @@
-import React, { useState, useContext, useEffect } from 'react';
+import { Grid, Typography } from '@mui/material';
 
 import axios from 'axios';
-
-import { Grid, Typography } from '@mui/material';
-import WeeklyChart from '../utils/WeeklyChart';
-
+import { useContext, useEffect, useState } from 'react';
+import { ChangeDate, MyContext } from '../App';
 import TodoForm from '../utils/TodoForm';
 import TodoList from '../utils/TodoList';
-import { ChangeDate, MyContext } from '../App';
+import WeeklyChart from '../utils/WeeklyChart';
 
 const TotalTimeCounter = () => {
   const startTimeString = localStorage.getItem('start');
@@ -31,10 +29,10 @@ const TotalTimeCounter = () => {
 };
 
 const Todo = () => {
+  
   const [todo, setTodo] = useState('');
   const [todos, setTodos] = useState([]);
   const [editId, setEditId] = useState(0);
-  const [i, seti] = useState(0);
 
   const [startTime, setStartTime] = useState();
   const [endTime, setEndTime] = useState();
@@ -118,7 +116,7 @@ const Todo = () => {
     if (selectedDate) {
       setLocalDate(selectedDate);
       getSelectedData();
-    }
+    } // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedDate]);
 
   const handleSubmit = (e) => {
@@ -224,8 +222,8 @@ const Todo = () => {
         breakduration,
         localDate,
       })
-      .then((response) => {
-        alert('successful');
+      .then(() => {
+        // alert('successful');
         setStart(new Date());
         localStorage.setItem('start', new Date());
         setInterval(TotalTimeCounter, 10000);
@@ -267,8 +265,8 @@ const Todo = () => {
         localDate,
         clockOutTime,
       })
-      .then((response) => {
-        alert('successful');
+      .then(() => {
+        // alert('successful');
       });
   };
   const [isbreak, setisbreak] = useState(0);
@@ -302,8 +300,8 @@ const Todo = () => {
         breakduration,
         localDate,
       })
-      .then((response) => {
-        alert('successful');
+      .then(() => {
+        // alert('successful');
       });
   };
   const [s, sets] = useState(calTime(localStorage.getItem('breakduration')));
@@ -318,6 +316,7 @@ const Todo = () => {
 
   useEffect(() => {
     setTimeout(updateList, 1000);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -354,7 +353,7 @@ const Todo = () => {
             clockInAvg={clockInAvg}
             updateList={updateList}
           />
-        </Grid>      
+        </Grid>
       </Grid>
       <TodoList todos={todos} setTodos={setTodos} handleEdit={handleEdit} handleDelete={handleDelete} />
     </>
