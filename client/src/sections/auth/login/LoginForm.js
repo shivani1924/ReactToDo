@@ -24,7 +24,8 @@ export default function LoginForm() {
     if (auth) {
       navigate('/dashboard', { replace: true });
     }
-  });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  },[]);
   const handleNotificationClose = (event, reason) => {
     if (reason === 'clickaway') {
       return;

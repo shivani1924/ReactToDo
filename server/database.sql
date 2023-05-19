@@ -341,7 +341,7 @@ INSERT INTO `users` (`idusers`, `firstName`, `lastName`, `email`, `password`) VA
 (56, 'ghg', 'hghgh', 'ghg', 'gjg'),
 (57, 'vh', 'vhhvh', 'vhv', 'vhv'),
 (58, 'vh', 'vhvhv', 'v', 'vhv'),
-(59, 'a', 'a', 'a', 'a'),
+(59, 'a', 'a', 'a@gmail.com', 'a'),
 (60, 'Nick', 'Jones', 'nick@gmail.com', 'nick');
 
 --
