@@ -2,7 +2,7 @@ require('dotenv').config()
 
 const createError = require('http-errors')
 const JWT = require('jsonwebtoken')
-const jwtkey = process.env.ACCESS_TOKEN_SECRET;
+const jwtkey = 'f-t';
 
 
 

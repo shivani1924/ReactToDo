@@ -1,5 +1,4 @@
 import { Grid, Typography } from '@mui/material';
-
 import axios from 'axios';
 import { useContext, useEffect, useState } from 'react';
 import { ChangeDate, MyContext } from '../App';
@@ -101,10 +100,10 @@ const Todo = () => {
           const localselectedDate = response.data.clockin[0];
           localStorage.setItem('selectedDate', localselectedDate);
           setDate(dateContext.selectedDate.date);
-          setStart(new Date(response.data.clockin[0].clockInTime));
-          const temp = calTime(response.data.clockin[0].clockInAvg);
-          setTimer(temp);
-          setbreakduration(response.data.clockin[0].break);
+          // setStart(new Date(response.data.clockin[0].clockInTime));
+          // const temp = calTime(response.data.clockin[0].clockInAvg);
+          // setTimer(temp);
+          // setbreakduration(response.data.clockin[0].break);
           console.log(localselectedDate);
           calTime(breakduration);
           sets(calTime(breakduration));
